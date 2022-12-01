@@ -1,0 +1,13 @@
+version: '3'
+services:
+   db:
+    image: postgres:latest
+    volumes:
+      - "dbdata:/var/lib/postgresql/data"
+      - "./db:/docker-entrypoint-initdb.d/:ro"
+    environment: 
+      - POSTGRES_DB=highscores
+      - POSTGRES_USER=GoodReactions
+      - POSTGRES_PASSWORD=R34C710N5
+volumes:
+  dbdata:
