@@ -7,6 +7,18 @@ router.get('/', (req, res) => {
     res.status(200).res.json({message: 'hello, world'})
 })
 
+router.get('/highscores', (req, res) => {
+    return new Promise (async (resolve, reject) => {
+        try {
+            let scoreData = await db.query(`SELECT * FROM highscores`)
+            // Think this might need a model
+            resolve(scoreData.rows)
+        } catch (err) {
+            reject(`Error adding highscore to database: ${err}`)
+        }
+    })
+})
+
 router.post('/highscores', (req, res) => {
     let name = req.body.name
     let highscore = req.body.highscore
