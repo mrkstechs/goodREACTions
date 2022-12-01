@@ -6,6 +6,7 @@
   "scripts": {
     "test": "jest --watchAll",
     "start": "node index",
+    "db": "node db/init",
     "dev": "nodemon index"
   },
   "repository": {
