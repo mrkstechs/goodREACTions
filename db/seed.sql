@@ -1,4 +1,4 @@
-INSERT INTO users (name, score)
+INSERT INTO highscores (name, score)
 VALUES 
 ("Peter", 812),
 ("Lois", 607),
