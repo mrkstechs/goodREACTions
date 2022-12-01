@@ -1,6 +1,7 @@
-DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS highscores;
 
-CREATE TABLE users (
+CREATE TABLE highscores (
     id serial PRIMARY KEY,
-    email VARCHAR(127) NOT NULL,
+    name VARCHAR(127) NOT NULL,
+    score INT NOT NULL
 );
