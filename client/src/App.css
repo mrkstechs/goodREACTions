@@ -1,0 +1,9 @@
+body{
+  margin: 0;
+  padding: 0;
+}
+
+#navBar{
+  border: 1px solid black;
+  text-align: center;
+}
