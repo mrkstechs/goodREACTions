@@ -1,11 +1,23 @@
+import React from 'react'
+import { Routes, Route } from 'react-router'
+
 import './App.css'
-import { Homepage } from './pages'
+import { Homepage, Lobby } from './pages'
+import { NavBar } from './components'
 
 function App() {
-
+  console.log("test")
   return (
     <div className="App">
-      <Homepage/>
+      <Routes>
+        <Route path="/" element={<NavBar />}>
+          <Route index element={<Homepage />}></Route>
+          <Route path="lobby" element={<Lobby />}></Route>
+          {/* <Route path='play'></Route> */}
+        </Route>
+
+        <Route path="*" element={<h1>404</h1>}></Route>
+      </Routes>
     </div>
   )
 }
