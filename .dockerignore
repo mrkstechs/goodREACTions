@@ -1,0 +1,7 @@
+AppDataRoamingnpm-cache
+*/AppDataRoamingnpm-cache
+Dockerfile
+.dockerignore
+node_modules
+*/node_modules
+.git

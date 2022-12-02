@@ -20,3 +20,12 @@
 
 ## Possible Routes
 - 
+## Fly.io Postgres Details
+https://fly.io/docs/postgres/getting-started/what-you-should-know/
+Postgres cluster goodreactions-db created
+  Username:    postgres
+  Password:    oE7PjhPHWK0NYpD
+  Hostname:    goodreactions-db.internal
+  Proxy port:  5432
+  Postgres port:  5433
+  Connection string: postgres://postgres:oE7PjhPHWK0NYpD@goodreactions-db.internal:5432

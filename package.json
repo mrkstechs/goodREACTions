@@ -6,13 +6,13 @@
   "scripts": {
     "test": "jest --watchAll",
     "start": "node index",
-    "dev": "nodemon index"
+    "db": "node db/init"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/mrkstechs/goodREACTions.git"
   },
-  "author": "Kelechi Okoli, Cameron Findlay, Adedayo Titoloye & Abdul Kamara",
+  "author": "Kelechi Okoli, Cameron Findlay, Adedayo Titiloye & Abdul Kamara",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/mrkstechs/goodREACTions/issues"
