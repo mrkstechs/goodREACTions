@@ -5,8 +5,12 @@
   "main": "index.js",
   "scripts": {
     "test": "jest --watchAll",
-    "start": "node index",
-    "db": "node db/init"
+    "start": "node index.js",
+    "db": "node db/init.js",
+    "dev": "npm run db && nodemon index.js",
+    "up": "bash _scripts/start.sh",
+    "down": "bash _scripts/stop.sh",
+    "remove": "bash _scripts/teardown.sh"
   },
   "repository": {
     "type": "git",
