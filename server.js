@@ -15,4 +15,19 @@ server.use(express.static(path.resolve(__dirname + '/client/dist')))
 
 server.get('/', (req, res) => res.sendFile(path.resolve(__dirname + '/client/dist/index.html')))
 
+// Socket.io things
+
+const io = require('socket.io')(2333, {
+    cors: {
+        origin: ["http://localhost:8080"] 
+    }
+})
+
+io.on("connection", socket => {
+    console.log(socket.id)
+})
+
+
+
+
 module.exports = server
