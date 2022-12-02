@@ -19,7 +19,7 @@ server.get('/', (req, res) => res.sendFile(path.resolve(__dirname + '/client/dis
 
 const io = require('socket.io')(2333, {
     cors: {
-        origin: ["http://localhost:8080"] 
+        origin: ["http://127.0.0.1:3000"] 
     }
 })
 
@@ -32,6 +32,7 @@ io.on("connection", socket => {
         socket.join(lobbyId)
         cb(`Joined lobby. LobbyId: ${lobbyId}`)
     })
+
 })
 
 

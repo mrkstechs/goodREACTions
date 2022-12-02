@@ -1,17 +1,19 @@
 import React from "react";
+import { useState } from "react";
 import { io } from 'socket.io-client'
 
-const Lobby = ({ lobbyId }) => {
+const Lobby = () => {
 
-
+    const [lobbyId, setLobbyId] = useState()
 
     const socket = io('http://localhost:2333')
+
     socket.on("connect", () => {
         console.log(`Connected to socket server with client id: ${socket.id}`)
 
         if (!lobbyId) {
             console.log("No lobby specified. Creating new lobby...")
-            lobbyId = socket.id
+            setLobbyId(socket.id)
         }
 
         socket.emit('join-lobby', lobbyId, response => {console.log(response)})
@@ -20,7 +22,7 @@ const Lobby = ({ lobbyId }) => {
 
     
     function startGame() {
-        
+
     }
 
 
