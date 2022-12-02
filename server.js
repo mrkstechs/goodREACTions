@@ -25,6 +25,13 @@ const io = require('socket.io')(2333, {
 
 io.on("connection", socket => {
     console.log(socket.id)
+
+
+    // Should also check number of players in lobby and not join if full
+    socket.on('join-lobby', (lobbyId, cb) => {
+        socket.join(lobbyId)
+        cb(`Joined lobby. LobbyId: ${lobbyId}`)
+    })
 })
 
 
