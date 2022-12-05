@@ -24,15 +24,36 @@ const io = require('socket.io')(2333, {
 })
 
 io.on("connection", socket => {
-    console.log(socket.id)
+    console.log("New connection:", socket.id)
+
+    socket.on('create-lobby', (lobbyId, cb) => {
+        if (!io.sockets.adapter.rooms[lobbyId]) {
+            socket.join(lobbyId)
+            console.log("New room created:", io.sockets.adapter.rooms)
+        } else {
+            cb(`Room name already in use`)
+        }
+        console.log("New room created:", io.sockets.adapter.rooms)
+    })
+
 
 
     // Should also check number of players in lobby and not join if full
     socket.on('join-lobby', (lobbyId, cb) => {
-        socket.join(lobbyId)
-        cb(`Joined lobby. LobbyId: ${lobbyId}`)
+        console.log(cb)
+        if (!io.sockets.adapter.rooms[lobbyId]){
+            cb(`Lobby "${lobbyId}" does not exist`)
+        } else {
+            socket.join(lobbyId)
+            cb(`Joined lobby. LobbyId: ${lobbyId}`)
+        }
+        console.log(io.sockets.adapter.rooms)
     })
 
+  
+    socket.on('disconnect', () => {
+
+    })
 })
 
 
