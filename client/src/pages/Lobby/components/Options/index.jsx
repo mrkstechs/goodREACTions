@@ -1,11 +1,31 @@
 import React from "react";
 
-function Options () {
+function Options ({ category, difficulty, timer, maxPlayers , updateCategory, updateDifficulty, updateTimer, updateMaxPlayers }) {
+
+    async function setCategory(e) {
+        const newCategory = e.target.value
+        updateCategory(newCategory)
+    }
+
+    function setDifficulty(e) {
+        const newDifficulty = e.target.value
+        updateDifficulty(newDifficulty)
+    }
+
+    function setTimer(e) {
+        const newTimer = e.target.value
+        updateTimer(newTimer)
+    }
+
+    function setMaxPlayers(e) {
+        const newMaxPlayers = e.target.value
+        updateMaxPlayers(newMaxPlayers)
+    }
 
     return <div id="lobbyOptions">
                 <h2>Options:</h2>
                 <form id="optionsForm">
-                    <select name="category" className="dropdownInput">
+                    <select name="category" className="dropdownInput" onChange={setCategory} value={category}>
                         <option value="any">Any Category</option>
                         <option value="9">General Knowledge</option>
                         <option value="10">Entertainment: Books</option>
@@ -32,16 +52,16 @@ function Options () {
                         <option value="31">Entertainment: Japanese Anime &amp; Manga</option>
                         <option value="32">Entertainment: Cartoon &amp; Animations</option>
                     </select>  
-                    <select name="difficulty" className="dropdownInput">
+                    <select name="difficulty" className="dropdownInput" onChange={setDifficulty}>
                         <option value="any">Any Difficulty</option>
                         <option value="easy">Easy</option>
                         <option value="medium">Medium</option>
                         <option value="hard">Hard</option>
                     </select>
-                    <label htmlFor="timer">Time Per Question:</label>
-                    <input type="range" min="5" max="60" name="timer" className="inputSlider" />
-                    <label htmlFor="maxPlayers">Max Players:</label>
-                    <input type="range" min="1" max="8" name="maxPlayers" className="inputSlider" />
+                    <label htmlFor="timer">Time Per Question: {timer} seconds</label>
+                    <input type="range" min="5" max="60" name="timer" className="inputSlider" onChange={setTimer} value={timer} />
+                    <label htmlFor="maxPlayers">Max Players: {maxPlayers} players</label>
+                    <input type="range" min="1" max="8" name="maxPlayers" className="inputSlider" onChange={setMaxPlayers} value={maxPlayers}/>
                 </form>
             </div>                
 }

@@ -9,6 +9,28 @@ import { Options, PlayerList } from "./components"
 
 const Lobby = () => {
 
+    const [category, updateCategory] = useState("any")
+    const [difficulty, updateDifficulty] = useState("any")
+    const [timer, updateTimer] = useState("20")
+    const [maxPlayers, updateMaxPlayers] = useState("4")
+
+    let options = {
+        category: "",
+        difficulty: "",
+        timer: "",
+        maxPlayers: "4"
+    }
+
+    useEffect(() => {
+        options = {
+            category: category,
+            difficulty: difficulty,
+            timer: timer,
+            maxPlayers: maxPlayers
+        }
+        console.log(options)
+    }, [category, difficulty, timer, maxPlayers])
+
     const navigate = useNavigate()
     const [lobbyId, setLobbyId] = useState()
 
@@ -24,6 +46,8 @@ const Lobby = () => {
 
     }, [])
 
+    
+
     function joinLobby(lobbyId, socket) {
         if (!lobbyId) {
             console.log("No lobby specified. Creating new lobby...")
@@ -33,12 +57,7 @@ const Lobby = () => {
     } 
 
 
-    const options = {
-        category: "",
-        difficulty: "",
-        timer: "",
-        maxPlayers: "4"
-    }
+
 
     
     function startGame(lobbyId, options) {
@@ -53,7 +72,7 @@ const Lobby = () => {
             <h1><span>Lobby Id: {lobbyId}</span></h1>
             <div className="lobbyMain">
                 <PlayerList options={options}/>
-                <Options />
+                <Options category={category} difficulty={difficulty} timer={timer} maxPlayers={maxPlayers} updateCategory={updateCategory} updateDifficulty={updateDifficulty} updateTimer={updateTimer} updateMaxPlayers={updateMaxPlayers} />
             </div>
             <div className="lobbyButtons">
                 <button onClick={backToHome}>Back</button>
