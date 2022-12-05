@@ -23,23 +23,42 @@
     background: #A084CA;
 }
 
-#lobbyMain {
+.lobbyMain {
+    margin: 50px;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: center;
+    column-gap: 4vw;
 }
 
 #lobbyPlayerList {
-    max-width: 400px;
+    max-width: 40vw;
+    width: 100%;
     background-color: #A084CA;
+    padding: 20px;
+    border-radius: 20px;
 }
 
 #lobbyOptions {
-    max-width: 400px;
+    max-width: 40vw;
+    width: 100%;
     background-color: #A084CA;
+    padding: 20px;
+    border-radius: 20px;
 }
 
 #lobbyOptions form {
     align-items: center;
     display: flex;
     flex-direction: column;
+    row-gap: 2.5vh;
+}
+
+.lobbyButtons {
+    margin: auto;
+    display: flex;
+    flex-direction: row;
+    column-gap: 5vw;
+    width: 100%;
+    max-width: 30vw;
 }

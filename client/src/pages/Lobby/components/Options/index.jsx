@@ -38,9 +38,9 @@ function Options () {
                         <option value="medium">Medium</option>
                         <option value="hard">Hard</option>
                     </select>
-                    <label htmlFor="timer">Time per question:</label>
+                    <label htmlFor="timer">Time Per Question:</label>
                     <input type="range" min="5" max="60" name="timer" className="inputSlider" />
-                    <label htmlFor="maxPlayers">Time per question:</label>
+                    <label htmlFor="maxPlayers">Max Players:</label>
                     <input type="range" min="1" max="8" name="maxPlayers" className="inputSlider" />
                 </form>
             </div>                
