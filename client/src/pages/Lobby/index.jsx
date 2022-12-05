@@ -13,12 +13,14 @@ const Lobby = () => {
     const [difficulty, updateDifficulty] = useState("any")
     const [timer, updateTimer] = useState("20")
     const [maxPlayers, updateMaxPlayers] = useState("4")
+    const [numQuestions, updateNumQuestions] = useState("10")
 
     let options = {
         category: "",
         difficulty: "",
         timer: "",
-        maxPlayers: "4"
+        maxPlayers: "4",
+        numQuestions: "10"
     }
 
     useEffect(() => {
@@ -26,10 +28,11 @@ const Lobby = () => {
             category: category,
             difficulty: difficulty,
             timer: timer,
-            maxPlayers: maxPlayers
+            maxPlayers: maxPlayers,
+            numQuestions: numQuestions
         }
         console.log(options)
-    }, [category, difficulty, timer, maxPlayers])
+    }, [category, difficulty, timer, maxPlayers, numQuestions])
 
     const navigate = useNavigate()
     const [lobbyId, setLobbyId] = useState()
@@ -72,7 +75,7 @@ const Lobby = () => {
             <h1><span>Lobby Id: {lobbyId}</span></h1>
             <div className="lobbyMain">
                 <PlayerList options={options}/>
-                <Options category={category} difficulty={difficulty} timer={timer} maxPlayers={maxPlayers} updateCategory={updateCategory} updateDifficulty={updateDifficulty} updateTimer={updateTimer} updateMaxPlayers={updateMaxPlayers} />
+                <Options category={category} difficulty={difficulty} timer={timer} maxPlayers={maxPlayers} numQuestions={numQuestions} updateCategory={updateCategory} updateDifficulty={updateDifficulty} updateTimer={updateTimer} updateMaxPlayers={updateMaxPlayers} updateNumQuestions={updateNumQuestions}/>
             </div>
             <div className="lobbyButtons">
                 <button onClick={backToHome}>Back</button>

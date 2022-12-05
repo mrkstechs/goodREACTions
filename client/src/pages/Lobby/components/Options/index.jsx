@@ -1,6 +1,6 @@
 import React from "react";
 
-function Options ({ category, difficulty, timer, maxPlayers , updateCategory, updateDifficulty, updateTimer, updateMaxPlayers }) {
+function Options ({ category, difficulty, timer, maxPlayers, numQuestions , updateCategory, updateDifficulty, updateTimer, updateMaxPlayers, updateNumQuestions }) {
 
     async function setCategory(e) {
         const newCategory = e.target.value
@@ -20,6 +20,12 @@ function Options ({ category, difficulty, timer, maxPlayers , updateCategory, up
     function setMaxPlayers(e) {
         const newMaxPlayers = e.target.value
         updateMaxPlayers(newMaxPlayers)
+    }
+
+    
+    function setNumQuestions(e) {
+        const newNumQuestions = e.target.value
+        updateNumQuestions(newNumQuestions)
     }
 
     return <div id="lobbyOptions">
@@ -52,7 +58,7 @@ function Options ({ category, difficulty, timer, maxPlayers , updateCategory, up
                         <option value="31">Entertainment: Japanese Anime &amp; Manga</option>
                         <option value="32">Entertainment: Cartoon &amp; Animations</option>
                     </select>  
-                    <select name="difficulty" className="dropdownInput" onChange={setDifficulty}>
+                    <select name="difficulty" className="dropdownInput" onChange={setDifficulty} value={difficulty}>
                         <option value="any">Any Difficulty</option>
                         <option value="easy">Easy</option>
                         <option value="medium">Medium</option>
@@ -62,6 +68,8 @@ function Options ({ category, difficulty, timer, maxPlayers , updateCategory, up
                     <input type="range" min="5" max="60" name="timer" className="inputSlider" onChange={setTimer} value={timer} />
                     <label htmlFor="maxPlayers">Max Players: {maxPlayers} players</label>
                     <input type="range" min="1" max="8" name="maxPlayers" className="inputSlider" onChange={setMaxPlayers} value={maxPlayers}/>
+                    <label htmlFor="numQuestions">Number of Questions: {numQuestions} questions</label>
+                    <input type="range" min="1" max="20" name="numQuestions" className="inputSlider" onChange={setNumQuestions} value={numQuestions}/>
                 </form>
             </div>                
 }
