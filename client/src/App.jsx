@@ -17,7 +17,6 @@ function App() {
           <Route path="question" element={<Questionpage />}></Route>
           {/* <Route path='play'></Route> */}
         </Route>
-
         <Route path="*" element={<h1>404</h1>}></Route>
       </Routes>
     </div>

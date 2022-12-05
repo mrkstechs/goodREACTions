@@ -57,3 +57,44 @@ button:hover{
   flex-direction: column;
   margin-bottom: 65px;
 }
+
+#popupForm{
+  /* border: 1px solid black; */
+  margin-top: -290px;
+  padding: 150px 200px;
+  border-radius: 50px;
+  background: #F5F5F5;
+}
+
+#popupForm form{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+#popupForm label{
+  margin-top: 17px;
+}
+
+#popupForm input{
+  margin-left: 5px;
+  border-radius: 50px;
+}
+#popupForm #enter{
+  border: none;
+  padding: 20px;
+  background-color: #645CAA;
+  
+}
+#enter:hover{
+  transition: 10s;
+  /* width: 100px; */
+  color: white;
+}
+#popupForm #txt {
+  border: none;
+  padding: 20px;
+  background: #EBC7E8;
+}
+
+
