@@ -102,7 +102,38 @@ button:hover{
   background: #EBC7E8;
 }
 
+#quizbtns{
+  display: grid;
+  grid-template-columns: 70vh 70vh;
+  width: 130vh;
+  margin: auto;
+  margin-top: 5vh;
+  /* grid-column-gap: 80px; */
+  
 .txt:focus{
   outline: none;
+}
+  
+}
+#quizbtn{
+  color: black;
+  background-color: #A084CA;
+  font-size: large;
+  text-align: center;
+  padding: 5vh 30vh;
+  border-radius: 115px;
+ 
+
+}
+
+
+#question{
+  background: #BFACE0;
+  border-radius: 115px;
+  text-align: center;
+  height: 100px;
+  margin-top: 35vh;
+  margin-left: 30vh;
+  width: 145vh;
 }
 

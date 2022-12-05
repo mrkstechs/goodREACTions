@@ -1,19 +1,22 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Routes, Route } from 'react-router'
 import './App.css'
 import { Homepage, Lobby, Leaderboardpage, Questionpage } from './pages'
 import { NavBar } from './components'
 import { useUpdateAppState } from './context'
 
-
-const updateInitAppState = async () => {
-  const [state, setState ] = useUpdateAppState()
-  const scores = await fetch('http://localhost:8080/api/highscores').then(res => res.json())
-  setState({type: 'UPDATE_LEADERBOARD', payload: scores})
-}
-
 function App() {
-  updateInitAppState()
+  const [state, setState ] = useUpdateAppState()
+  
+  useEffect(() => {
+    const updateInitalState = async () => {
+      const scores = await fetch('http://localhost:8080/api/highscores').then(res => res.json()).catch(err => console.error(err))
+      setState({type: 'UPDATE_LEADERBOARD', payload: scores})
+    }
+
+    updateInitalState()
+  }, [])
+
   return (
     <div className="App">
       <Routes>
