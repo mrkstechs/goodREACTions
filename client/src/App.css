@@ -99,8 +99,8 @@ button:hover{
 
 #quizbtns{
   display: grid;
-  grid-template-columns: 400px 400px;
-  width: 50vw;
+  grid-template-columns: 70vh 70vh;
+  width: 130vh;
   margin: auto;
   margin-top: 5vh;
   /* grid-column-gap: 80px; */
@@ -110,14 +110,11 @@ button:hover{
 #quizbtn{
   color: black;
   background-color: #A084CA;
-  /* grid-column-gap: 900px; */
+  font-size: large;
   text-align: center;
-  justify-content: space-evenly;
-  padding: 40px 130px;
+  padding: 5vh 30vh;
   border-radius: 115px;
-  /* width: 180px; */
-  /* width: 20vw;  */
-  /* padding-right: 10vh;  */
+ 
 }
 
 
@@ -125,9 +122,9 @@ button:hover{
   background: #BFACE0;
   border-radius: 115px;
   text-align: center;
-  height: 70px;
+  height: 100px;
   margin-top: 35vh;
   margin-left: 30vh;
-  width: 70vw;
+  width: 145vh;
 }
 
