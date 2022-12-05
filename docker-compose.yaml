@@ -1,13 +1,39 @@
 version: '3'
 services:
-   db:
+  client:
+    container_name: gr-frontend
+    build: './client'
+    ports:
+      - 3000:3000
+  server:
+    image: node
+    container_name: goodreactions
+    working_dir: /app
+    environment:
+      - DATABASE_URL=postgres://goodreactions:r34c710n5@db:5432/highscores
+      - NODE_ENV=development
+    ports:
+      - 8080:8080
+    depends_on:
+      - db
+      - client
+    volumes:
+      - type: bind
+        source: .
+        target: /app
+    command: bash -c "npm install && npm run dev"
+    
+  db:
     image: postgres:latest
     volumes:
+      - "./db/migrations:/docker-entrypoint-initdb.d/:ro"
       - "dbdata:/var/lib/postgresql/data"
-      - "./db:/docker-entrypoint-initdb.d/:ro"
     environment: 
       - POSTGRES_DB=highscores
-      - POSTGRES_USER=GoodReactions
-      - POSTGRES_PASSWORD=R34C710N5
+      - POSTGRES_USER=goodreactions
+      - POSTGRES_PASSWORD=r34c710n5
 volumes:
   dbdata:
+networks:
+  default:
+    name: goodreactions

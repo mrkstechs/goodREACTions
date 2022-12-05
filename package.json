@@ -5,8 +5,12 @@
   "main": "index.js",
   "scripts": {
     "test": "jest --watchAll",
-    "start": "node index",
-    "db": "node db/init"
+    "start": "node index.js",
+    "db": "node db/init.js",
+    "dev": "nodemon index.js",
+    "up": "bash _scripts/start.sh",
+    "down": "bash _scripts/stop.sh",
+    "remove": "bash _scripts/teardown.sh"
   },
   "repository": {
     "type": "git",
@@ -26,6 +30,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
-    "pg": "^8.8.0"
+    "pg": "^8.8.0",
+    "socket.io": "^4.5.4"
   }
 }
