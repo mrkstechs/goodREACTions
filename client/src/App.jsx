@@ -1,12 +1,19 @@
 import React from 'react'
 import { Routes, Route } from 'react-router'
-
 import './App.css'
 import { Homepage, Lobby, Leaderboardpage, Questionpage } from './pages'
 import { NavBar } from './components'
+import { useUpdateAppState } from './context'
+
+
+const updateInitAppState = async () => {
+  const [state, setState ] = useUpdateAppState()
+  const scores = await fetch('http://localhost:8080/api/highscores').then(res => res.json())
+  setState({type: 'UPDATE_LEADERBOARD', payload: scores})
+}
 
 function App() {
-  console.log("test")
+  updateInitAppState()
   return (
     <div className="App">
       <Routes>

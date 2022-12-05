@@ -1,0 +1,64 @@
+.lobbyBackground {
+    text-align: center;
+    width: 95vw;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+    height: 80vh;
+    border-radius: 50px;
+    background: #BFACE0;
+    display: flex;
+    flex-direction: column;
+    color: #F5F5F5;
+}
+
+#lobby h1 {
+    margin-top: 50px;
+
+}
+
+#lobby h1 span {
+    padding: 30px;
+    border-radius: 1000px;
+    background: #A084CA;
+}
+
+.lobbyMain {
+    margin: 50px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    column-gap: 4vw;
+}
+
+#lobbyPlayerList {
+    max-width: 40vw;
+    width: 100%;
+    background-color: #A084CA;
+    padding: 20px;
+    border-radius: 20px;
+}
+
+#lobbyOptions {
+    max-width: 40vw;
+    width: 100%;
+    background-color: #A084CA;
+    padding: 20px;
+    border-radius: 20px;
+}
+
+#lobbyOptions form {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    row-gap: 2.5vh;
+}
+
+.lobbyButtons {
+    margin: auto;
+    display: flex;
+    flex-direction: row;
+    column-gap: 5vw;
+    width: 100%;
+    max-width: 30vw;
+}
