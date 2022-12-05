@@ -102,6 +102,10 @@ button:hover{
   background: #EBC7E8;
 }
 
+.txt:focus {
+  outline: none;
+}
+
 #quizbtns{
   display: grid;
   grid-template-columns: 70vh 70vh;
@@ -109,10 +113,6 @@ button:hover{
   margin: auto;
   margin-top: 5vh;
   /* grid-column-gap: 80px; */
-  
-.txt:focus{
-  outline: none;
-}
   
 }
 #quizbtn{
