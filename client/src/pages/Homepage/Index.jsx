@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import Popup from 'reactjs-popup'
 import { io } from 'socket.io-client'
 
-const socket = io('http://localhost:2333')
+export const socket = io('http://localhost:2333')
 
 const Homepage = () =>{
     
@@ -26,9 +26,9 @@ const Homepage = () =>{
         navigate('/leaderboard')
     }
 
-    socket.on("send-to-lobby", (lobbyId, username) => {
-        console.log(lobbyId)
-        navigate('/lobby', {state: {lobbyId, username}})
+    socket.on("send-to-lobby", ( lobbyId, username, userList) => {
+        console.log("userList:", userList)
+        navigate('/lobby', {state: { lobbyId, username, userList}})
     })
 
 

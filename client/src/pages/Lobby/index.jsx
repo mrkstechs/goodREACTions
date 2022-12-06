@@ -1,7 +1,8 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from 'react-router-dom'
-import { io } from 'socket.io-client'
+
+import { socket } from "../Homepage/Index";
 
 import "./style.css"
 
@@ -10,10 +11,9 @@ import { Options, PlayerList } from "./components"
 const Lobby = () => {
 
     const { state } = useLocation()
-    const { lobbyId, username } = state
+    const { lobbyId, username, userList } = state
 
-    // const { socket, lobbyId, username } = location.state
-    // console.log(socket, lobbyId, username)
+    console.log("userList:", userList)
 
     const [category, updateCategory] = useState("any")
     const [difficulty, updateDifficulty] = useState("any")
@@ -39,24 +39,9 @@ const Lobby = () => {
         }
     }, [category, difficulty, timer, maxPlayers, numQuestions])
 
+
+    // Navigation
     const navigate = useNavigate()
-
-    useEffect(() => {
-        
-    }, [])
-
-
-
-    // function joinLobby(lobbyId, socket) {
-    //     if (!lobbyId) {
-    //         console.log("No lobby specified. Creating new lobby...")
-    //         setLobbyId(socket.id)
-    //     }
-    //     socket.emit('join-lobby', lobbyId, displayConsoleMessage)
-    // } 
-
-
-
     
     function startGame(lobbyId, options) {
         navigate('/question', {lobbyId, options})
@@ -66,10 +51,16 @@ const Lobby = () => {
         navigate('/')
     }
 
+    // socket.on("user-joined", (updatedList) => {
+    //     console.log(userList)
+    //     updateUserList(updatedList)
+
+    // })
+
     return <div id="lobby" className="lobbyBackground">
             <h1><span>Lobby Id: {lobbyId}</span></h1>
             <div className="lobbyMain">
-                <PlayerList options={options}/>
+                <PlayerList options={options} initUserList={userList}/>
                 <Options category={category} difficulty={difficulty} timer={timer} maxPlayers={maxPlayers} numQuestions={numQuestions} updateCategory={updateCategory} updateDifficulty={updateDifficulty} updateTimer={updateTimer} updateMaxPlayers={updateMaxPlayers} updateNumQuestions={updateNumQuestions}/>
             </div>
             <div className="lobbyButtons">
