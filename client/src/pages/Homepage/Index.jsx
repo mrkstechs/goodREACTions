@@ -3,18 +3,15 @@ import { useNavigate } from 'react-router-dom'
 import Popup from 'reactjs-popup'
 import { io } from 'socket.io-client'
 
+const socket = io('http://localhost:2333')
+
 const Homepage = () =>{
     
-    const [lobbyId, setLobbyId] = useState()
-    const [username, setUsername] = useState()
-    const [socket, setSocket] = useState(io('http://localhost:2333'))
+    const [lobbyId, setLobbyId] = useState("")
+    const [username, setUsername] = useState("")
 
-    useEffect(() => {
-
-        socket.on("connect", () => {
-            console.log(`Connected to socket server with client id: ${socket.id}`)
-        })
-
+    socket.on("connect", () => {
+        console.log(`Connected to socket server with client id: ${socket.id}`)
     })
 
     socket.on("console-message", (message) => {
@@ -55,14 +52,13 @@ const Homepage = () =>{
 
 
     // Form handling
+
     function updateUsername(e) {
-        const newUsername = e.target.value
-        setUsername(newUsername)
+        setUsername(e.target.value)
     }
 
     function updateLobbyId(e) {
-        const newLobbyId = e.target.value
-        setLobbyId(newLobbyId)
+        setLobbyId(e.target.value)
     }
 
     return (
@@ -76,9 +72,9 @@ const Homepage = () =>{
                         <h2>Create Lobby</h2>
                         <form id='popupCreate' onSubmit={createGame}>
                             <label htmlFor="username">User Name:</label>
-                            <input type="text" name='username' placeholder='Enter Lobby name here...' className='txt' onChange={updateUsername} required/>
+                            <input type="text" name='username' placeholder='Enter Lobby name here...' className='txt' onChange={updateUsername} value={username} required/>
                             <label htmlFor="lobby">Lobby Name:</label>
-                            <input type="text" name='lobby' placeholder='Enter Lobby name here...' className='txt' onChange={updateLobbyId} required/>
+                            <input type="text" name='lobby' placeholder='Enter Lobby name here...' className='txt' onChange={updateLobbyId} value={lobbyId} required/>
                             <input type="submit" value="Enter" className='enter'/>
                         </form>
                     </div>
