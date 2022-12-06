@@ -4,21 +4,6 @@ body{
   background-color: #F5F5F5;
 }
 
-#navBar{
-  text-align: center;
-  background-color: #645CAA;
-  padding: 5px 5px 1px 5px;
-  color: white;
-}
-
-#icon{
-  float: right;
-  /* border: 1px solid black; */
-  margin-top: -55px;
-  margin-right: 10px;
-  font-size: 30px;
-}
-
 .background{
   /* border: 1px solid black; */
   width: 95vw;
