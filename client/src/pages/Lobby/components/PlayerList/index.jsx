@@ -22,7 +22,7 @@ function PlayerList ({ lobbyId, options, initUserList }) {
 
     console.log("userList:", userList)
 
-    return  <div id="lobbyPlayerList">
+    return  <div id="lobbyPlayerList" role="region" aria-label="player list">
                 <h2>Players:</h2>
                 <h4>0 / {options.maxPlayers}</h4>
                 <ul>

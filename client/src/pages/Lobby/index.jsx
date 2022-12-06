@@ -58,14 +58,14 @@ const Lobby = () => {
     // })
 
     return <div id="lobby" className="lobbyBackground">
-            <h1><span>Lobby Id: {lobbyId}</span></h1>
+            <h1><span role="heading" aria-label="lobbyHeading">Lobby Id: {lobbyId}</span></h1>
             <div className="lobbyMain">
                 <PlayerList lobbyId={lobbyId} options={options} initUserList={userList}/>
                 <Options category={category} difficulty={difficulty} timer={timer} maxPlayers={maxPlayers} numQuestions={numQuestions} updateCategory={updateCategory} updateDifficulty={updateDifficulty} updateTimer={updateTimer} updateMaxPlayers={updateMaxPlayers} updateNumQuestions={updateNumQuestions}/>
             </div>
             <div className="lobbyButtons">
-                <button onClick={backToHome}>Back</button>
-                <button onClick={startGame}>Start Game!</button>
+                <button onClick={backToHome} name="backButton">Back</button>
+                <button onClick={startGame} name="startButton">Start Game!</button>
             </div>
 
         </div>
