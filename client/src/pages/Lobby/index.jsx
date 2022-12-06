@@ -36,9 +36,6 @@ const Lobby = ({socket, lobbyId, username }) => {
     const navigate = useNavigate()
 
     useEffect(() => {
-
-        console.log(socket, lobbyId)
-
         
     }, [])
 

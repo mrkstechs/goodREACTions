@@ -32,7 +32,6 @@ const Homepage = () =>{
     }
 
     socket.on("send-to-lobby", () => {
-        console.log(socket, lobbyId, username)
         navigate('/lobby', {socket, lobbyId, username})
     })
 
@@ -42,7 +41,6 @@ const Homepage = () =>{
     function createGame(e) {
         // store username and lobbyid, create new 'session'.
         e.preventDefault()
-        console.log(socket, lobbyId, username)
         socket.emit('create-lobby', lobbyId, username)
     }
 
