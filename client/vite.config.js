@@ -13,5 +13,5 @@ export default defineConfig({
       usePolling: true
     }
   },
-  plugins: [react()]
+  plugins: [react({fastRefresh: true})]
 })
