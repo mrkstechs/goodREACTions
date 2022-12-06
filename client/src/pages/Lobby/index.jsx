@@ -60,7 +60,7 @@ const Lobby = () => {
     return <div id="lobby" className="lobbyBackground">
             <h1><span>Lobby Id: {lobbyId}</span></h1>
             <div className="lobbyMain">
-                <PlayerList options={options} initUserList={userList}/>
+                <PlayerList lobbyId={lobbyId} options={options} initUserList={userList}/>
                 <Options category={category} difficulty={difficulty} timer={timer} maxPlayers={maxPlayers} numQuestions={numQuestions} updateCategory={updateCategory} updateDifficulty={updateDifficulty} updateTimer={updateTimer} updateMaxPlayers={updateMaxPlayers} updateNumQuestions={updateNumQuestions}/>
             </div>
             <div className="lobbyButtons">

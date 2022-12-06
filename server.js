@@ -62,10 +62,10 @@ io.on("connection", socket => {
         console.log(io.sockets.adapter.rooms)
     })
 
-    // socket.on("get-user-list", (lobbyId) => {
-    //     const userList = io.sockets.adapter.rooms.get(lobbyId).players
-    //     socket.emit("send-user-list", userList)
-    // })
+    socket.on("get-user-list", (lobbyId) => {
+        const userList = io.sockets.adapter.rooms.get(lobbyId).players
+        socket.emit("send-user-list", userList)
+    })
 
 
     socket.on('disconnect', () => {
