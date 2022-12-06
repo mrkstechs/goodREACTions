@@ -5,9 +5,7 @@ import {BrowserRouter as Router} from 'react-router-dom';
 describe('NavBar', () =>{
     beforeEach(() =>{
         render(
-        <Router>
-        <NavBar />
-      </Router>
+        <NavBar />, { wrapper: Router }
         )
     })
 
