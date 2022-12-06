@@ -7,7 +7,7 @@ import "./style.css"
 
 import { Options, PlayerList } from "./components"
 
-const Lobby = () => {
+const Lobby = ({socket, lobbyId, username }) => {
 
     const [category, updateCategory] = useState("any")
     const [difficulty, updateDifficulty] = useState("any")
@@ -31,40 +31,29 @@ const Lobby = () => {
             maxPlayers: maxPlayers,
             numQuestions: numQuestions
         }
-        console.log(options)
     }, [category, difficulty, timer, maxPlayers, numQuestions])
 
     const navigate = useNavigate()
-    const [lobbyId, setLobbyId] = useState()
 
     useEffect(() => {
-        const socket = io('http://localhost:2333')
-
-        socket.on("connect", () => {
-            console.log(`Connected to socket server with client id: ${socket.id}`)
-    
-            joinLobby(lobbyId, socket);              
-        })
-    
-
+        
     }, [])
 
-    
 
-    function joinLobby(lobbyId, socket) {
-        if (!lobbyId) {
-            console.log("No lobby specified. Creating new lobby...")
-            setLobbyId(socket.id)
-        }
-        socket.emit('join-lobby', lobbyId, response => {console.log(response)})
-    } 
 
+    // function joinLobby(lobbyId, socket) {
+    //     if (!lobbyId) {
+    //         console.log("No lobby specified. Creating new lobby...")
+    //         setLobbyId(socket.id)
+    //     }
+    //     socket.emit('join-lobby', lobbyId, displayConsoleMessage)
+    // } 
 
 
 
     
     function startGame(lobbyId, options) {
-
+        navigate('/question', {lobbyId, options})
     }
 
     function backToHome() {

@@ -24,15 +24,35 @@ const io = require('socket.io')(2333, {
 })
 
 io.on("connection", socket => {
-    console.log(socket.id)
+    console.log("New connection:", socket.id)
 
-
-    // Should also check number of players in lobby and not join if full
-    socket.on('join-lobby', (lobbyId, cb) => {
-        socket.join(lobbyId)
-        cb(`Joined lobby. LobbyId: ${lobbyId}`)
+    socket.on('create-lobby', (lobbyId, username) => {
+        if (io.sockets.adapter.rooms.get(lobbyId)){
+            socket.emit("console-message", `Lobby "${lobbyId}" name already in use`)
+        } else {
+            socket.join(lobbyId)
+            socket.emit("console-message", `Created lobby. LobbyId: ${lobbyId}`)
+            socket.emit("send-to-lobby")
+        }
+        console.log(io.sockets.adapter.rooms)
     })
 
+    // Should also check number of players in lobby and not join if full
+    socket.on('join-lobby', (lobbyId, username, cb) => {
+        if (!io.sockets.adapter.rooms.get(lobbyId)){
+            socket.emit("console-message", `Lobby "${lobbyId}" does not exist`)
+        } else {
+            socket.join(lobbyId)
+            socket.emit("console-message", `Joined lobby. LobbyId: ${lobbyId}`)
+            socket.emit("send-to-lobby")
+        }
+        console.log(io.sockets.adapter.rooms)
+    })
+
+  
+    socket.on('disconnect', () => {
+
+    })
 })
 
 
