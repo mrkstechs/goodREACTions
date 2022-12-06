@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react'
-import { Podium } from '../../components'
+import React, { useEffect, useState, useContext } from 'react'
+import { Podium, Stuff } from '../../components'
 import RunnerUps from '../../components/RunnerUps'
-import { useUpdateAppState } from '../../context'
+import AppStateContext  from '../../context'
+
 
 const Leaderboardpage = () =>{
+    const useUpdateAppState = () => useContext(AppStateContext)
     const [state, setState ] = useUpdateAppState()
     const [sorted, setSorted] = useState(false)
 
@@ -16,14 +18,15 @@ const Leaderboardpage = () =>{
     const topFive = (arr) => {
         const sorted = arr.sort((a, b) => b.score - a.score)
         return sorted.map((user, index) => (
-            index <= 2 ? <Podium key={index} name={user.name}/> : 
+            index <= 2 ? <Podium key={index} name={user.name} position={index}/> : 
             index > 2 && index <= 4 ? <RunnerUps key={index} name={user.name} /> : ''
         ))
     }
 
     return(
         <>
-        <h1>Leaderboard Page</h1>
+        <h1>Leaderboard Page!</h1>
+        <Stuff/>
         { sorted && topFive(state.leaderboard) }
         </>
     )

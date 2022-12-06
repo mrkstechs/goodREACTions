@@ -3,7 +3,7 @@ import React from 'react'
 const Questionpage = () =>{
     return(
         <>
-        <h1>Question page</h1>
+        <h1>Question page!</h1>
         <div className="quizbody">
         <div id='question'>
         <p >question</p> 

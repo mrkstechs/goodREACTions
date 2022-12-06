@@ -1,9 +1,11 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useContext } from 'react'
 import { Routes, Route } from 'react-router'
 import './App.css'
 import { Homepage, Lobby, Leaderboardpage, Questionpage } from './pages'
 import { NavBar } from './components'
-import { useUpdateAppState } from './context'
+import AppStateContext  from './context'
+
+const useUpdateAppState = () => useContext(AppStateContext)
 
 function App() {
   const [state, setState ] = useUpdateAppState()
