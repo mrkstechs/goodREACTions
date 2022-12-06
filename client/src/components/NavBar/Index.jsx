@@ -1,18 +1,16 @@
 import React from 'react'
 import { Outlet, useNavigate, NavLink } from 'react-router-dom'
 import { FaBars, FaArrowCircleLeft } from 'react-icons/fa'
+import './styles.css'
 
 const NavBar = () =>{
     const navigate = useNavigate()
     return(<>
             <nav id="navBar">
-                <div id="back-btn" onClick={() => console.log('clicked!')}>
+                <h1>Untitled Quiz Game</h1>
+                <div id="icon" onClick={() => navigate(-1)}>
                     <FaArrowCircleLeft/>
                 </div>
-                <h1>Untitled Quiz Game</h1>
-                <div id="icon">
-                        <FaBars />
-                    </div>
             </nav>
             <Outlet />
         </>

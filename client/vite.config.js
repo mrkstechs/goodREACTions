@@ -5,8 +5,11 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   server: {
     port: 3000,
+    hmr: {
+      port: 3000
+    },
     watch: {
-      ignored: ['/AppDataRoamingnpm-cache/'],
+      persistent: true,
       usePolling: true
     }
   },
