@@ -7,7 +7,7 @@
     "test": "jest --watchAll",
     "start": "node index.js",
     "db": "node db/init.js",
-    "dev": "nodemon -L index.js",
+    "dev": "nodemon --ignore ./client/ -L index.js",
     "up": "bash _scripts/start.sh",
     "down": "bash _scripts/stop.sh",
     "remove": "bash _scripts/teardown.sh"
