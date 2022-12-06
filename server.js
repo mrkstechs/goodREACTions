@@ -57,7 +57,7 @@ io.on("connection", socket => {
             userList.push(username)
             
             socket.emit("send-to-lobby", lobbyId, username, userList)
-            socket.to(lobbyId).emit("user-joined", userList)
+            socket.to(lobbyId).emit("user-joined", userList) // this part isn't working yet - marking to pick back up here
         }
         console.log(io.sockets.adapter.rooms)
     })
