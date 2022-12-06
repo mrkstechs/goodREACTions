@@ -30,8 +30,8 @@ const Homepage = () =>{
     }
 
     socket.on("send-to-lobby", (socket, lobbyId, username) => {
-        console.log(lobbyId)
-        navigate('/lobby', {state: {"socket": socket, "lobbyId": lobbyId, "username": username}})
+        console.log(socket, lobbyId, username)
+        // navigate('/lobby', {state: {socket, lobbyId, username}})
     })
 
 
