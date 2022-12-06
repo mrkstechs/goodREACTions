@@ -9,8 +9,6 @@ const Homepage = () =>{
     const [username, setUsername] = useState()
     const [socket, setSocket] = useState(io('http://localhost:2333'))
 
-
-    
     useEffect(() => {
 
         socket.on("connect", () => {
@@ -31,8 +29,9 @@ const Homepage = () =>{
         navigate('/leaderboard')
     }
 
-    socket.on("send-to-lobby", () => {
-        navigate('/lobby', {socket, lobbyId, username})
+    socket.on("send-to-lobby", (lobbyId, username) => {
+        console.log(lobbyId)
+        navigate('/lobby', {state: {lobbyId, username}})
     })
 
 

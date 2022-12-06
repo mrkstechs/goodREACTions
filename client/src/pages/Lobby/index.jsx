@@ -1,13 +1,19 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { io } from 'socket.io-client'
 
 import "./style.css"
 
 import { Options, PlayerList } from "./components"
 
-const Lobby = ({socket, lobbyId, username }) => {
+const Lobby = () => {
+
+    const { state } = useLocation()
+    const { lobbyId, username } = state
+
+    // const { socket, lobbyId, username } = location.state
+    // console.log(socket, lobbyId, username)
 
     const [category, updateCategory] = useState("any")
     const [difficulty, updateDifficulty] = useState("any")

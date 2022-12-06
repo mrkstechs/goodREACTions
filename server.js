@@ -32,7 +32,7 @@ io.on("connection", socket => {
         } else {
             socket.join(lobbyId)
             socket.emit("console-message", `Created lobby. LobbyId: ${lobbyId}`)
-            socket.emit("send-to-lobby")
+            socket.emit("send-to-lobby", lobbyId, username)
         }
         console.log(io.sockets.adapter.rooms)
     })
