@@ -1,13 +1,19 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { io } from 'socket.io-client'
 
 import "./style.css"
 
 import { Options, PlayerList } from "./components"
 
-const Lobby = ({socket, lobbyId, username }) => {
+const Lobby = () => {
+
+    const { state } = useLocation()
+    console.log(state)
+
+    // const { socket, lobbyId, username } = location.state
+    // console.log(socket, lobbyId, username)
 
     const [category, updateCategory] = useState("any")
     const [difficulty, updateDifficulty] = useState("any")
@@ -61,7 +67,7 @@ const Lobby = ({socket, lobbyId, username }) => {
     }
 
     return <div id="lobby" className="lobbyBackground">
-            <h1><span>Lobby Id: {lobbyId}</span></h1>
+            {/* <h1><span>Lobby Id: {lobbyId}</span></h1> */}
             <div className="lobbyMain">
                 <PlayerList options={options}/>
                 <Options category={category} difficulty={difficulty} timer={timer} maxPlayers={maxPlayers} numQuestions={numQuestions} updateCategory={updateCategory} updateDifficulty={updateDifficulty} updateTimer={updateTimer} updateMaxPlayers={updateMaxPlayers} updateNumQuestions={updateNumQuestions}/>
