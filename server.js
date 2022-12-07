@@ -111,7 +111,7 @@ io.on("connection", socket => {
 
             setInterval(() => {
                 if (timer == 0 && answered == false) {      // Checks if answered to not skip showing correct answer
-                    nextQuestion(activePlayerTracker, options, lobbySockets, players)
+                    nextQuestion(activePlayer, activePlayerTracker, options, lobbySockets, players)
                 }
                 return timer--
             }, 1000)
@@ -119,7 +119,7 @@ io.on("connection", socket => {
 
             // wait for active player to answer
             socket.on("answer-question", (answer) => {
-                if( socket.id === activePlayer.socketId){
+                if( socket.id === activePlayer.socketId ){
                     answered = true
                     if (answer == question.correct_answer) {
                         io.to(lobbyId).emit("correct-answer")
