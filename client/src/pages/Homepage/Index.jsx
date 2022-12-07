@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import Popup from 'reactjs-popup'
 import { io } from 'socket.io-client'
 
-export const socket = io('http://localhost:2333')
+import { socket } from "../../App";
 
 const Homepage = () =>{
     

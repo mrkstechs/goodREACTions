@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from 'react-router-dom'
 
-import { socket } from "../Homepage/Index";
+import { socket } from "../../App";
 
 import "./style.css"
 
@@ -12,8 +12,6 @@ const Lobby = () => {
 
     const { state } = useLocation()
     const { lobbyId, username, userList } = state
-
-    console.log("userList:", userList)
 
     const [category, updateCategory] = useState("any")
     const [difficulty, updateDifficulty] = useState("any")
@@ -44,12 +42,14 @@ const Lobby = () => {
     const navigate = useNavigate()
     
     function startGame() {
-        socket.emit("start-game", lobbyId, options, toQuestionPage)
+        console.log(socket)
+        socket.emit("start-game", lobbyId, options)
     }
 
-    function toQuestionPage() {
+    socket.on("go-to-quiz", () => {
+        console.log("Starting game...")
         navigate('/question')
-    }
+    })
 
     function backToHome() {
         navigate('/')

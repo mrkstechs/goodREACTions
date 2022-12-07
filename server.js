@@ -57,7 +57,7 @@ io.on("connection", socket => {
             userList.push(username)
             
             socket.emit("send-to-lobby", lobbyId, username, userList)
-            socket.to(lobbyId).emit("user-joined", userList) // this part isn't working yet - marking to pick back up here
+            io.to(lobbyId).emit("user-joined", userList) // this part isn't working yet - marking to pick back up here
         }
         console.log(io.sockets.adapter.rooms)
     })
@@ -67,12 +67,21 @@ io.on("connection", socket => {
         socket.emit("send-user-list", userList)
     })
 
+    socket.on("start-game", (lobbyId, options) => {
+        console.log("Starting game in lobby:", lobbyId)
+        console.log(io.sockets.adapter.rooms)
+
+
+
+        io.to(lobbyId).emit("go-to-quiz")
+    })
+    
+    
 
     socket.on('disconnect', () => {
 
     })
 })
-
 
 
 

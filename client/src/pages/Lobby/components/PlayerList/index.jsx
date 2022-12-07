@@ -1,7 +1,7 @@
 import React, { useState }  from "react";
 import { useEffect } from "react";
 
-import { socket } from '../../../Homepage/Index'
+import { socket } from "../../../../App";
 
 function PlayerList ({ lobbyId, options, initUserList }) {
 

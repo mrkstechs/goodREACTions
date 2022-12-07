@@ -4,6 +4,9 @@ import './App.css'
 import { Homepage, Lobby, Leaderboardpage, Questionpage } from './pages'
 import { Header, NavBar } from './components'
 import AppStateContext  from './context'
+import { io } from 'socket.io-client'
+
+export const socket = io('http://localhost:2333')
 
 const useUpdateAppState = () => useContext(AppStateContext)
 
