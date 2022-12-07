@@ -60,7 +60,7 @@ function Game({ triviaData }) {
   if (isGameOver) {
     pageKey = "EndScreen";
     pageContent = (
-      <LeaderBoard
+      <LeaderBoardPage
         score={score}
         bestScore={0}
         // onRetryClick={restartGame}
