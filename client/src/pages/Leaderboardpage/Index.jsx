@@ -1,8 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react'
-import { Podium, Stuff } from '../../components'
-import RunnerUps from '../../components/RunnerUps'
+import { Podium, RunnerUps } from '../../components'
 import AppStateContext  from '../../context'
-
+import './styles.css'
 
 const Leaderboardpage = () =>{
     const useUpdateAppState = () => useContext(AppStateContext)
@@ -17,16 +16,20 @@ const Leaderboardpage = () =>{
     
     const topFive = (arr) => {
         const sorted = arr.sort((a, b) => b.score - a.score)
-        return sorted.map((user, index) => (
-            index <= 2 ? <Podium key={index} name={user.name} position={index}/> : 
-            index > 2 && index <= 4 ? <RunnerUps key={index} name={user.name} /> : ''
-        ))
+        return (
+            <div className='leaderboard'>
+                <div className="stage">
+                    {sorted.map((user, index) => ( index <= 2 && <Podium key={index} name={user.name} position={index}/> ))}
+                </div>
+                <div className="bench">
+                    {sorted.map((user,index) => ( index > 2 && index <= 4 ? <RunnerUps key={index} name={user.name} /> : '' ))}
+                </div>
+            </div>
+        )
     }
 
     return(
         <>
-        <h1>Leaderboard Page!</h1>
-        <Stuff/>
         { sorted && topFive(state.leaderboard) }
         </>
     )

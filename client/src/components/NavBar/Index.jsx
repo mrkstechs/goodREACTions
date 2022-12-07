@@ -12,7 +12,6 @@ const NavBar = () =>{
                     <FaArrowCircleLeft/>
                 </div>
             </nav>
-            <Outlet />
         </>
     )
 }

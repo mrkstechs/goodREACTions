@@ -2,7 +2,7 @@ import React, { useEffect, useContext } from 'react'
 import { Routes, Route } from 'react-router'
 import './App.css'
 import { Homepage, Lobby, Leaderboardpage, Questionpage } from './pages'
-import { NavBar } from './components'
+import { Header, NavBar } from './components'
 import AppStateContext  from './context'
 
 const useUpdateAppState = () => useContext(AppStateContext)
@@ -12,8 +12,12 @@ function App() {
   
   useEffect(() => {
     const updateInitalState = async () => {
-      const scores = await fetch('http://localhost:8080/api/highscores').then(res => res.json()).catch(err => console.error(err))
-      setState({type: 'UPDATE_LEADERBOARD', payload: scores})
+      try {
+        const scores = await fetch('http://localhost:8080/api/highscores').then(res => res.json()).catch(err => console.error(err))
+        setState({type: 'UPDATE_LEADERBOARD', payload: scores})
+      } catch (error) {
+        console.error(error)
+      }
     }
 
     updateInitalState()
@@ -22,7 +26,7 @@ function App() {
   return (
     <div className="App">
       <Routes>
-        <Route path="/" element={<NavBar />}>
+        <Route path="/" element={<Header/>}>
           <Route index element={<Homepage />}></Route>
           <Route path="lobby" element={<Lobby />}></Route>
           <Route path="leaderboard" element={<Leaderboardpage />}></Route>
