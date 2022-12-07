@@ -24,7 +24,7 @@ function PlayerList ({ lobbyId, options, initUserList }) {
 
     return  <div id="lobbyPlayerList" role="region" aria-label="player list">
                 <h2>Players:</h2>
-                <h4>0 / {options.maxPlayers}</h4>
+                <h4>{userList.length !== 0 ? userList.length : 0} / {options.maxPlayers}</h4>
                 <ul>
                     {userList.map((user, i) => <li key={i}>{user}</li>)}
                 </ul>
