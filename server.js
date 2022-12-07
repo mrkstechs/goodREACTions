@@ -58,7 +58,7 @@ io.on("connection", socket => {
             userList.push(username)
             
             socket.emit("send-to-lobby", lobbyId, username, userList)
-            io.to(lobbyId).emit("user-joined", userList) // this part isn't working yet - marking to pick back up here
+            io.to(lobbyId).emit("user-joined", userList)
         }
         console.log(io.sockets.adapter.rooms)
     })
@@ -105,6 +105,7 @@ io.on("connection", socket => {
 
             // set active player
             // wait for active player to answer and set answered to true to avoid skipping next question countdown
+
             socket.on("answer-question", (answer) => {
                 answered = true
                 if (answer == question.correct_answer) {
