@@ -1,7 +1,6 @@
 import React, {  useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Popup from 'reactjs-popup'
-import { io } from 'socket.io-client'
 
 import { socket } from "../../App";
 
@@ -44,12 +43,6 @@ const Homepage = () =>{
         e.preventDefault()
         socket.emit('join-lobby', lobbyId, username)
     }
-
-    // function joinGame(){
-    //     // if game id = input value, send to lobby, else, error message.
-    // }
-
-
 
     // Form handling
 
