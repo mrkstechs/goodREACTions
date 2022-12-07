@@ -1,3 +1,5 @@
+import he from "he"
+
 let triviaData = [
     {
       category: "Entertainment: Board Games",
@@ -87,5 +89,14 @@ let triviaData = [
       incorrect_answers: ["207", "197", "177"],
     },
   ];
+
+  triviaData = triviaData.map((item) => {
+    return {
+        ...item,
+        question: he.decode(item.question),
+        correct_answer: he.decode(item.correct_answer),
+        incorrect_answers: item.incorrect_answers.map(incorrect => he.decode(incorrect)) 
+    }
+  })
   
   export default triviaData;
