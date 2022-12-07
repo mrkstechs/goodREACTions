@@ -37,7 +37,6 @@ io.on("connection", socket => {
             io.sockets.adapter.rooms.get(lobbyId).host = socket.id;
             io.sockets.adapter.rooms.get(lobbyId).players = [username];
             const userList = io.sockets.adapter.rooms.get(lobbyId).players
-            console.log(userList)
             socket.emit("send-to-lobby", lobbyId, username, userList)
         }
         console.log(io.sockets.adapter.rooms)
@@ -68,20 +67,35 @@ io.on("connection", socket => {
         socket.emit("send-user-list", userList)
     })
 
+
+    /*
+    Game Start
+    */
+
     socket.on("start-game", (lobbyId, options) => {
         console.log("Starting game in lobby:", lobbyId)
         console.log("With options:", options)
-        console.log(io.sockets.adapter.rooms)
+        console.log(io.sockets.adapter.rooms.get(lobbyId))
 
         // Get questions - we can either add handling for true/false answers or only fetch multiple choice
         const questionData = []
 
+        // initialise active player and question num
+        const lobbySockets = io.sockets.adapter.rooms.get(lobbyId)
+        const players = io.sockets.adapter.rooms.get(lobbyId).players
+        let activePlayerTracker = 0
+        let activePlayer = {socketId: lobbySockets[activePlayerTracker],
+                            username: players[activePlayerTracker]}
 
+        let questionNum = 1;
+
+        
         io.to(lobbyId).emit("go-to-quiz")
 
         // loop for number of questions
         questionData.forEach(question => {
-
+            
+            console.log("Current palyer:", activePlayer)
             // send question
             io.to(lobbyId).emit("send-question", question.question) // recieve on client to display
 
@@ -90,49 +104,35 @@ io.on("connection", socket => {
             let shuffledAnswers = answers.sort((a, b) => Math.random() - 0.5)
             io.to(lobbyId).emit("send-answers", shuffledAnswers)
 
+            
             // if time runs out skip to next
             let timer = options.timer;
             let answered = false;
 
             setInterval(() => {
                 if (timer == 0 && answered == false) {      // Checks if answered to not skip showing correct answer
-                    io.to(lobbyId).emit("next-question")
+                    nextQuestion(activePlayerTracker, options, lobbySockets, players)
                 }
                 return timer--
             }, 1000)
 
 
-
-            // set active player
-            // wait for active player to answer and set answered to true to avoid skipping next question countdown
-
+            // wait for active player to answer
             socket.on("answer-question", (answer) => {
-                answered = true
-                if (answer == question.correct_answer) {
-                    io.to(lobbyId).emit("correct-answer")
-                    score = caclulateScore(timer, options.timer)
-                    // add score to local leaderboard
-                } else {
-                    io.to(lobbyId).emit("wrong-answer")
+                if( socket.id === activePlayer.socketId){
+                    answered = true
+                    if (answer == question.correct_answer) {
+                        io.to(lobbyId).emit("correct-answer")
+                        score = calculateScore(timer, options.timer)
+                        // add score to local leaderboard
+                    } else {
+                        io.to(lobbyId).emit("wrong-answer")
+                    }
+    
+                    nextQuestion(activePlayer, activePlayerTracker, options, lobbySockets, players)
                 }
-
-  
 
             })
-
-
-            // wait for 5 seconds
-                // show correct answer to users
-                // get ready next player...
-
-            let pause = 5
-
-            setInterval(() => {
-                if (pause == 0) {
-                    io.to(lobbyId).emit("next-question")
-                }
-                return pause--
-            }, 1000)
 
 
             // next question
@@ -151,6 +151,28 @@ io.on("connection", socket => {
 
     })
 })
+
+function nextQuestion(activePlayerTracker, options, lobbySockets, players) {
+
+    //Update active player
+    activePlayerTracker<(players.length-1) ? activePlayerTracker++ : activePlayerTracker = 0
+
+    activePlayer = {socketId: lobbySockets[activePlayerTracker],
+                     username: players[activePlayerTracker]}
+
+
+    // wait for 5 seconds show correct answer to users and get ready next player...
+
+        let pause = 5
+
+        setInterval(() => {
+            if (pause == 0) {
+                io.to(lobbyId).emit("show-answer")
+            }
+            return pause--
+        }, 1000)
+    
+}
 
 function calculateScore(timer, maxTime) {
     let score = timer * 10
