@@ -1,36 +1,97 @@
-import { useState } from "react";
-import TriviaItem from "./trivia-item"
-import Stats from "./stats"
-import triviaData from "./trivia-data";
+import { useEffect, useState } from "react";
 
-function Game(){
-    const [gameState, setGameState] = useState({
+import Stats from "./stats";
+import TriviaItem from "./trivia-item";
+import { FadeTransition, FadeWrapper } from "./fade-transition";
+
+function convertDifficultyToPoints(difficulty) {
+  if (difficulty === "easy") return 1;
+  else if (difficulty === "medium") return 2;
+  else if (difficulty === "hard") return 3;
+  else throw new Error(`Invalid difficulty setting: ${difficulty}`);
+}
+
+/**
+ * The Game is responsible for orchestrating the flow of the quiz game.
+ */
+function Game({ triviaData }) {
+  const [gameState, setGameState] = useState({
     score: 0,
     triviaIndex: 0,
     isGameOver: false,
+    startTime: performance.now(),
+  });
+
+  const { score, triviaIndex, isGameOver, startTime } = gameState;
+  const questionNumber = triviaIndex + 1;
+  const numQuestions = triviaData.length;
+  const playTimeInSeconds = (performance.now() - startTime) / 1000;
+
+  const restartGame = () => {
+    setGameState({
+      score: 0,
+      triviaIndex: 0,
+      isGameOver: false,
+      startTime: performance.now(),
     });
+  };
 
-    
-    const { score, triviaIndex, isGameOver} = gameState;
-    const questionNumber = triviaIndex + 1;
-    const numQuestions = triviaData. length;
+  const loadNextQuestion = () => {
+    if (triviaIndex >= triviaData.length - 1) {
+      setGameState({ ...gameState, isGameOver: true });
+    } else {
+      // Using the spread operator to copy the gameState and override the triviaIndex.
+      setGameState({ ...gameState, triviaIndex: triviaIndex + 1 });
+    }
+  };
 
-    //use trivaIndex to pull out a single question
+  const onAnswerSelected = (wasPlayerCorrect, difficulty) => {
+    const pointValue = convertDifficultyToPoints(difficulty);
+    if (wasPlayerCorrect) {
+      setGameState({
+        ...gameState,
+        score: score + pointValue,
+      });
+    }
+  };
+
+  let pageContent;
+  let pageKey;
+  if (isGameOver) {
+    pageKey = "EndScreen";
+    pageContent = (
+      <LeaderBoardPage
+        score={score}
+        bestScore={0}
+        // onRetryClick={restartGame}
+        playTime={playTimeInSeconds}
+      />
+    );
+  } else {
+    pageKey = triviaIndex;
     const triviaQuestion = triviaData[triviaIndex];
-    const {correct_answer, incorrect_answers, question} = triviaQuestion;
+    const { correct_answer, incorrect_answers, question, difficulty } = triviaQuestion;
+    pageContent = (
+      <TriviaItem
+        key={triviaIndex}
+        question={question}
+        difficulty={difficulty}
+        correctAnswer={correct_answer}
+        incorrectAnswers={incorrect_answers}
+        onNextClick={loadNextQuestion}
+        onAnswerSelected={onAnswerSelected}
+      />
+    );
+  }
 
-    console.log(correct_answer, incorrect_answers, question)
-
-    let pageContent = <TriviaItem question={question} correctAnswer={correct_answer} incorrectAnswers={incorrect_answers} />;
-    return (<>
-        {/* <p>{score}</p>
-        <p>{triviaIndex}</p>
-        <p>{isGameOver ? "Game is over": "Game is not over"}</p>
-        <p>{question}</p> */}
-        <Stats score= {score} questionNumber={questionNumber} totalQuestions={numQuestions} />
-        {pageContent}
+  return (
+    <>
+      <Stats score={score} questionNumber={questionNumber} totalQuestions={numQuestions} />
+      <FadeWrapper>
+        <FadeTransition key={pageKey}>{pageContent}</FadeTransition>
+      </FadeWrapper>
     </>
-    )
+  );
 }
 
-export default Game
+export default Game;
