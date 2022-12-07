@@ -73,27 +73,59 @@ io.on("connection", socket => {
         console.log("With options:", options)
         console.log(io.sockets.adapter.rooms)
 
-        // Get questions
-        const questions = []
+        // Get questions - we can either add handling for true/false answers or only fetch multiple choice
+        const questionData = []
+
 
         io.to(lobbyId).emit("go-to-quiz")
 
         // loop for number of questions
+        questionData.forEach(question => {
 
-            // start timer
-            // display questions
+            // send question
+            io.to(lobbyId).emit("send-question", question.question) // recieve on client to display
+
+            // shuffles and sends answers
+            let answers = question.incorrect_answers.push(question.correct_answer)
+            let shuffledAnswers = answers.sort(() => Math.random() - 0.5)
+            io.to(lobbyId).emit("send-answers", shuffledAnswers)
+
             // if time runs out skip to next
+            let timer = options.timer;
+            let answered = false;
+
+            setInterval(() => {
+                if (timer == 0 && answered == false) {      // Checks if answered to not skip showing correct answer
+                    io.to(lobbyId).emit("next-question")
+                }
+                return timer--
+            }, 1000)
+
+
 
             // set active player
-            // wait for active player to answer
+            // wait for active player to answer and set answered to true to avoid skipping next question countdown
             // check if correct and calculate score based on time
             // add score to local leaderboard
 
             // wait for 5 seconds
                 // show correct answer to users
                 // get ready next player...
-            
+            let pause = 5
+
+            setInterval(() => {
+                if (pause == 0) {
+                    io.to(lobbyId).emit("next-question")
+                }
+                return pause--
+            }, 1000)
+
+
             // next question
+
+        })
+
+
 
         // All questions answered, display winner
 
