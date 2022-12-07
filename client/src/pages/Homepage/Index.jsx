@@ -27,6 +27,7 @@ const Homepage = () =>{
 
     socket.on("send-to-lobby", ( lobbyId, username, userList, host) => {
         console.log("userList:", userList)
+        console.log('host: ', host)
         navigate('/lobby', {state: { lobbyId, username, userList, host}})
     })
 
