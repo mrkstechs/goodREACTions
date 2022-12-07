@@ -70,11 +70,33 @@ io.on("connection", socket => {
 
     socket.on("start-game", (lobbyId, options) => {
         console.log("Starting game in lobby:", lobbyId)
+        console.log("With options:", options)
         console.log(io.sockets.adapter.rooms)
 
-
+        // Get questions
+        const questions = []
 
         io.to(lobbyId).emit("go-to-quiz")
+
+        // loop for number of questions
+
+            // start timer
+            // display questions
+            // if time runs out skip to next
+
+            // set active player
+            // wait for active player to answer
+            // check if correct and calculate score based on time
+            // add score to local leaderboard
+
+            // wait for 5 seconds
+                // show correct answer to users
+                // get ready next player...
+            
+            // next question
+
+        // All questions answered, display winner
+
     })
     
     
