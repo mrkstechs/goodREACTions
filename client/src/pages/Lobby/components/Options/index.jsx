@@ -31,7 +31,7 @@ function Options ({ category, difficulty, timer, maxPlayers, numQuestions , upda
     return <div id="lobbyOptions">
                 <h2>Options:</h2>
                 <form id="optionsForm">
-                    <select name="category" className="dropdownInput" onChange={setCategory} value={category}>
+                    <select aria-label="category" name="category" className="dropdownInput" onChange={setCategory} value={category}>
                         <option value="any">Any Category</option>
                         <option value="9">General Knowledge</option>
                         <option value="10">Entertainment: Books</option>
