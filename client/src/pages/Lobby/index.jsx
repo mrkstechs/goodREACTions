@@ -44,7 +44,7 @@ const Lobby = () => {
     const navigate = useNavigate()
     
     function startGame() {
-        socket.emit("start-gamme", lobbyId, options, toQuestionPage)
+        socket.emit("start-game", lobbyId, options, toQuestionPage)
     }
 
     function toQuestionPage() {
