@@ -11,7 +11,7 @@ import { Options, PlayerList } from "./components"
 const Lobby = () => {
 
     const { state } = useLocation()
-    const { lobbyId, username, userList } = state
+    const { lobbyId, username, userList, host } = state
 
     const [category, updateCategory] = useState("any")
     const [difficulty, updateDifficulty] = useState("any")
