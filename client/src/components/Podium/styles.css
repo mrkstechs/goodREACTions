@@ -5,3 +5,18 @@
     border: solid 1px red;
 }
 
+.second{
+   height: 75%;
+   margin-bottom: -75px;
+   order: 1;
+}
+
+.third{
+    height: 50%;
+    margin-bottom: -150px;
+    order: 3;
+}
+
+.first{
+    order: 2;
+}
