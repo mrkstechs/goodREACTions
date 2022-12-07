@@ -43,19 +43,17 @@ const Lobby = () => {
     // Navigation
     const navigate = useNavigate()
     
-    function startGame(lobbyId, options) {
-        navigate('/question', {lobbyId, options})
+    function startGame() {
+        socket.emit("start-gamme", lobbyId, options, toQuestionPage)
+    }
+
+    function toQuestionPage() {
+        navigate('/question')
     }
 
     function backToHome() {
         navigate('/')
     }
-
-    // socket.on("user-joined", (updatedList) => {
-    //     console.log(userList)
-    //     updateUserList(updatedList)
-
-    // })
 
     return <div id="lobby" className="lobbyBackground">
             <h1><span role="heading" aria-label="lobbyHeading">Lobby Id: {lobbyId}</span></h1>
