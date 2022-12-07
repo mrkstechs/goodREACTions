@@ -11,6 +11,9 @@ export default defineConfig({
     watch: {
       persistent: true,
       usePolling: true
+    },
+    cors:{
+      origin: '*'
     }
   },
   plugins: [react({fastRefresh: true})]
