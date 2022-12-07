@@ -105,7 +105,6 @@ button:hover{
 }
 .enter:hover{
   transition: 2s;
-  /* width: 100px; */
   color: white;
 }
 .popupForm .txt {
@@ -118,34 +117,92 @@ button:hover{
   outline: none;
 }
 
-#quizbtns{
-  display: grid;
-  grid-template-columns: 70vh 70vh;
-  width: 130vh;
-  margin: auto;
-  margin-top: 5vh;
-  /* grid-column-gap: 80px; */
-  
-}
-#quizbtn{
-  color: black;
-  background-color: #A084CA;
-  font-size: large;
-  text-align: center;
-  padding: 5vh 30vh;
-  border-radius: 115px;
- 
-
+/* QuestionPage */
+.stats {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1rem 0;
 }
 
-
-#question{
-  background: #BFACE0;
-  border-radius: 115px;
+.stat-container {
+  min-width: 100px;
   text-align: center;
-  height: 100px;
+  color: white;
+  background: #A084CA;
+  padding: 0.4rem 0.6rem;
+  border-radius: 0.5rem;
+  margin: 0 0.25rem;
+}
+
+.stats__stat-label {
+  font-size: 0.6rem;
+  font-style: italic;
+}
+
+.stats__stat-value {
+  font-size: 1rem;
+}
+
+.trivia-item__question {
+  text-align: center;
+  font-size: 2rem;
   margin-top: 35vh;
-  margin-left: 30vh;
-  width: 145vh;
 }
 
+.trivia-item__answers {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  gap: 1rem;
+}
+
+#trivia-item__button {
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 1.5rem 1.5rem;
+  cursor: pointer;
+  background: #6060ff;
+  color: white;
+  font-size: 1.4rem;
+  border-radius: 1rem;
+  outline: none;
+  border: 3px solid transparent;
+  transition: background 0.15s, transform 0.15s, border-color 0.15s;
+}
+
+#trivia-item__next-button {
+  margin: 1rem auto;
+  width: 25%;
+}
+
+#trivia-item__button:hover {
+  background: #A084CA;
+  transform: rotate(1deg) scale(1.01);
+}
+
+#trivia-item__button:active {
+  background: #2828a3;
+  transform: rotate(2deg) scale(1.02);
+}
+
+#trivia-item__button:focus {
+  border-color: black;
+}
+
+#trivia-item__button.trivia-item__button--disabled {
+  background: #c3c3d8;
+}
+
+#trivia-item__button.trivia-item__button--correct {
+  background: #27bd26;
+}
+
+#trivia-item__button.trivia-item__button--incorrect {
+  background: #c02626;
+}

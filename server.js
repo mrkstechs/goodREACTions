@@ -19,7 +19,7 @@ server.get('/', (req, res) => res.sendFile(path.resolve(__dirname + '/client/dis
 
 const io = require('socket.io')(2333, {
     cors: {
-        origin: ["http://127.0.0.1:3000"] 
+        origin: ["http://localhost:3000"]
     }
 })
 
@@ -40,7 +40,7 @@ io.on("connection", socket => {
             socket.emit("send-to-lobby", lobbyId, username, userList)
         }
         console.log(io.sockets.adapter.rooms)
-    })
+    }, {cors: { origin: '*'}})
 
     // Should also check number of players in lobby and not join if full
     socket.on('join-lobby', (lobbyId, username, cb) => {
