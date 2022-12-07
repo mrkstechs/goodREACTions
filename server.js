@@ -109,12 +109,13 @@ io.on("connection", socket => {
                 answered = true
                 if (answer == question.correct_answer) {
                     io.to(lobbyId).emit("correct-answer")
+                    score = caclulateScore(timer, options.timer)
+                    // add score to local leaderboard
                 } else {
                     io.to(lobbyId).emit("wrong-answer")
                 }
 
-            // check if correct and calculate score based on time
-            // add score to local leaderboard
+  
 
             })
 
@@ -150,6 +151,16 @@ io.on("connection", socket => {
     })
 })
 
+function calculateScore(timer, maxTime) {
+    let score = timer * 10
 
+    let timeTaken = maxTime - timer
+
+    for (let i = timeTaken; i > 0; i--) {
+        score /= 1.05;
+    }
+
+    return(Math.floor(score))
+}
 
 module.exports = server
