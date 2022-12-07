@@ -85,9 +85,9 @@ io.on("connection", socket => {
             // send question
             io.to(lobbyId).emit("send-question", question.question) // recieve on client to display
 
-            // shuffles and sends answers
+            // shuffles and sends answers - untested
             let answers = question.incorrect_answers.push(question.correct_answer)
-            let shuffledAnswers = answers.sort(() => Math.random() - 0.5)
+            let shuffledAnswers = answers.sort((a, b) => Math.random() - 0.5)
             io.to(lobbyId).emit("send-answers", shuffledAnswers)
 
             // if time runs out skip to next
@@ -105,12 +105,24 @@ io.on("connection", socket => {
 
             // set active player
             // wait for active player to answer and set answered to true to avoid skipping next question countdown
+            socket.on("answer-question", (answer) => {
+                answered = true
+                if (answer == question.correct_answer) {
+                    io.to(lobbyId).emit("correct-answer")
+                } else {
+                    io.to(lobbyId).emit("wrong-answer")
+                }
+
             // check if correct and calculate score based on time
             // add score to local leaderboard
+
+            })
+
 
             // wait for 5 seconds
                 // show correct answer to users
                 // get ready next player...
+
             let pause = 5
 
             setInterval(() => {
