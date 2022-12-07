@@ -46,8 +46,10 @@ const Lobby = () => {
         socket.emit("start-game", lobbyId, options)
     }
 
-    socket.on("go-to-quiz", () => {
+    socket.on("game-starting", () => {
         console.log("Starting game...")
+        socket.emit("init-game", lobbyId)
+
         navigate('/question')
     })
 

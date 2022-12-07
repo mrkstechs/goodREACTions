@@ -36,6 +36,7 @@ io.on("connection", socket => {
             socket.emit("console-message", `Created lobby. LobbyId: ${lobbyId}`)
             io.sockets.adapter.rooms.get(lobbyId).host = socket.id;
             io.sockets.adapter.rooms.get(lobbyId).players = [username];
+            io.sockets.adapter.rooms.get(lobbyId).sockets = [socket.id];
             const userList = io.sockets.adapter.rooms.get(lobbyId).players
             const gameHost = io.sockets.adapter.rooms.get(lobbyId).host
             socket.emit("send-to-lobby", lobbyId, username, userList, gameHost)
@@ -56,7 +57,10 @@ io.on("connection", socket => {
             const gameHost = io.sockets.adapter.rooms.get(lobbyId).host
             let userList = io.sockets.adapter.rooms.get(lobbyId).players;
             userList.push(username)
-            
+
+            let socketList = io.sockets.adapter.rooms.get(lobbyId).sockets;
+            socketList.push(socket.id)
+
             socket.emit("send-to-lobby", lobbyId, username, userList, gameHost)
             io.to(lobbyId).emit("user-joined", userList)
         }
@@ -74,52 +78,67 @@ io.on("connection", socket => {
     */
 
     socket.on("start-game", (lobbyId, options) => {
-        console.log("Starting game in lobby:", lobbyId)
-        console.log("With options:", options)
-        console.log(io.sockets.adapter.rooms.get(lobbyId))
+        if (socket.id === io.sockets.adapter.rooms.get(lobbyId).host) {
+            console.log("Starting game in lobby:", lobbyId)
+            console.log("With options:", options)
 
-        // Get questions - we can either add handling for true/false answers or only fetch multiple choice
-        const questionData = [{
-            category: "General Knowledge",
-            type: "multiple",
-            difficulty: "easy",
-            question: "How would one say goodbye in Spanish?",
-            correct_answer: "Adi&oacute;s",
-            incorrect_answers: [
-            " Hola",
-            "Au Revoir",
-            "Salir"
-            ]
-            },
-            {
-            category: "General Knowledge",
-            type: "multiple",
-            difficulty: "easy",
-            question: "What is the shape of the toy invented by Hungarian professor Ernő Rubik?",
-            correct_answer: "Cube",
-            incorrect_answers: [
-            "Sphere",
-            "Cylinder",
-            "Pyramid"
-            ]
-            }]
+            console.log(io.sockets.adapter.rooms.get(lobbyId))
 
-        // initialise active player and question num
-        const lobbySockets = Object.values(io.sockets.adapter.rooms.get(lobbyId))
-        const players = io.sockets.adapter.rooms.get(lobbyId).players
-        let activePlayerTracker = 0
-        let activePlayer = {socketId: lobbySockets[activePlayerTracker],
-                            username: players[activePlayerTracker]}
+            // Get questions - we can either add handling for true/false answers or only fetch multiple choice
+            //https://opentdb.com/api.php?amount=10&category=22&difficulty=medium
 
-        let questionNum = 1;
+            const questionData = [{
+                category: "General Knowledge",
+                type: "multiple",
+                difficulty: "easy",
+                question: "How would one say goodbye in Spanish?",
+                correct_answer: "Adi&oacute;s",
+                incorrect_answers: [
+                " Hola",
+                "Au Revoir",
+                "Salir"
+                ]
+                },
+                {
+                category: "General Knowledge",
+                type: "multiple",
+                difficulty: "easy",
+                question: "What is the shape of the toy invented by Hungarian professor Ernő Rubik?",
+                correct_answer: "Cube",
+                incorrect_answers: [
+                "Sphere",
+                "Cylinder",
+                "Pyramid"
+                ]
+                }]
 
-        
-        io.to(lobbyId).emit("go-to-quiz")
+            // initialise active player and question num
 
-        // loop for number of questions
-        questionData.forEach(question => {
+            const lobby = io.sockets.adapter.rooms.get(lobbyId)
+            const players = lobby.players
+            lobby.activePlayerTracker = 0
+            lobby.activePlayer = {socketId: lobby.sockets[lobby.activePlayerTracker],
+                                username: players[lobby.activePlayerTracker]}
+            lobby.questions = questionData
+            lobby.options = options
+
+            // Tells lobby game is starting
             
-            console.log("Current palyer:", activePlayer)
+            io.to(lobbyId).emit("game-starting")
+    }})
+
+    socket.on("init-game", (lobbyId) => {
+
+        let lobby = io.sockets.adapter.rooms.get(lobbyId)
+        let questionData = lobby.questions
+        let options = lobby.options
+
+        questionData.forEach(question => {
+    
+            lobby = io.sockets.adapter.rooms.get(lobbyId)
+            let activePlayer = lobby.activePlayer
+
+            console.log("Current player:", activePlayer)
             // send question
             io.to(lobbyId).emit("send-question", question.question) // recieve on client to display
 
@@ -136,7 +155,7 @@ io.on("connection", socket => {
 
             setInterval(() => {
                 if (timer == 0 && answered == false) {      // Checks if answered to not skip showing correct answer
-                    nextQuestion(activePlayer, activePlayerTracker, options, lobbySockets, players, lobbyId)
+                    nextQuestion(lobbyId)
                 }
                 return timer--
             }, 1000)
@@ -145,6 +164,9 @@ io.on("connection", socket => {
             // wait for active player to answer
             socket.on("answer-question", (answer) => {
                 
+                console.log("Answer sent by: ", socket.id)
+                console.log("Active player", activePlayer.socketId)
+
                 if( socket.id === activePlayer.socketId ){
                     console.log("recieved answer: ", answer)
                     answered = true
@@ -156,7 +178,7 @@ io.on("connection", socket => {
                         io.to(lobbyId).emit("wrong-answer")
                     }
     
-                    nextQuestion(activePlayer, activePlayerTracker, options, lobbySockets, players, lobbyId)
+                    nextQuestion(lobbyId)
                 }
 
             })
@@ -165,27 +187,39 @@ io.on("connection", socket => {
             // next question
 
         })
+        
+    })
+        // loop for number of questions
+        
 
 
 
         // All questions answered, display winner
 
+        socket.on('disconnect', () => {
+
+        })
+
     })
     
     
 
-    socket.on('disconnect', () => {
 
-    })
-})
 
-function nextQuestion(activePlayerTracker, options, lobbySockets, players, lobbyId) {
+function nextQuestion(lobbyId) {
+
+    const lobby = io.sockets.adapter.rooms.get(lobbyId)
+    let options = lobby.options
+    let players = lobby.players
+
+    lobby.activePlayer
+    lobby.activePlayerTracker
 
     //Update active player
-    activePlayerTracker<(players.length-1) ? activePlayerTracker++ : activePlayerTracker = 0
+    lobby.activePlayerTracker < (players.length-1 ) ? lobby.activePlayerTracker++ : lobby.activePlayerTracker = 0
 
-    activePlayer = {socketId: lobbySockets[activePlayerTracker],
-                     username: players[activePlayerTracker]}
+    lobby.activePlayer = {socketId: lobby.sockets[lobby.activePlayerTracker],
+                     username: players[lobby.activePlayerTracker]}
 
 
     // wait for 5 seconds show correct answer to users and get ready next player...
