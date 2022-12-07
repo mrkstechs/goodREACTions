@@ -44,6 +44,7 @@ io.on("connection", socket => {
     }, {cors: { origin: '*'}})
 
     // Should also check number of players in lobby and not join if full
+
     socket.on('join-lobby', (lobbyId, username, cb) => {
         socket.username = username;
         if (!io.sockets.adapter.rooms.get(lobbyId)){
@@ -78,10 +79,33 @@ io.on("connection", socket => {
         console.log(io.sockets.adapter.rooms.get(lobbyId))
 
         // Get questions - we can either add handling for true/false answers or only fetch multiple choice
-        const questionData = []
+        const questionData = [{
+            category: "General Knowledge",
+            type: "multiple",
+            difficulty: "easy",
+            question: "How would one say goodbye in Spanish?",
+            correct_answer: "Adi&oacute;s",
+            incorrect_answers: [
+            " Hola",
+            "Au Revoir",
+            "Salir"
+            ]
+            },
+            {
+            category: "General Knowledge",
+            type: "multiple",
+            difficulty: "easy",
+            question: "What is the shape of the toy invented by Hungarian professor Ernő Rubik?",
+            correct_answer: "Cube",
+            incorrect_answers: [
+            "Sphere",
+            "Cylinder",
+            "Pyramid"
+            ]
+            }]
 
         // initialise active player and question num
-        const lobbySockets = io.sockets.adapter.rooms.get(lobbyId)
+        const lobbySockets = Object.values(io.sockets.adapter.rooms.get(lobbyId))
         const players = io.sockets.adapter.rooms.get(lobbyId).players
         let activePlayerTracker = 0
         let activePlayer = {socketId: lobbySockets[activePlayerTracker],
@@ -100,7 +124,8 @@ io.on("connection", socket => {
             io.to(lobbyId).emit("send-question", question.question) // recieve on client to display
 
             // shuffles and sends answers - untested
-            let answers = question.incorrect_answers.push(question.correct_answer)
+            let answers = question.incorrect_answers
+            answers.push(question.correct_answer)
             let shuffledAnswers = answers.sort((a, b) => Math.random() - 0.5)
             io.to(lobbyId).emit("send-answers", shuffledAnswers)
 
@@ -111,7 +136,7 @@ io.on("connection", socket => {
 
             setInterval(() => {
                 if (timer == 0 && answered == false) {      // Checks if answered to not skip showing correct answer
-                    nextQuestion(activePlayer, activePlayerTracker, options, lobbySockets, players)
+                    nextQuestion(activePlayer, activePlayerTracker, options, lobbySockets, players, lobbyId)
                 }
                 return timer--
             }, 1000)
@@ -119,7 +144,9 @@ io.on("connection", socket => {
 
             // wait for active player to answer
             socket.on("answer-question", (answer) => {
+                
                 if( socket.id === activePlayer.socketId ){
+                    console.log("recieved answer: ", answer)
                     answered = true
                     if (answer == question.correct_answer) {
                         io.to(lobbyId).emit("correct-answer")
@@ -129,7 +156,7 @@ io.on("connection", socket => {
                         io.to(lobbyId).emit("wrong-answer")
                     }
     
-                    nextQuestion(activePlayer, activePlayerTracker, options, lobbySockets, players)
+                    nextQuestion(activePlayer, activePlayerTracker, options, lobbySockets, players, lobbyId)
                 }
 
             })
@@ -152,7 +179,7 @@ io.on("connection", socket => {
     })
 })
 
-function nextQuestion(activePlayerTracker, options, lobbySockets, players) {
+function nextQuestion(activePlayerTracker, options, lobbySockets, players, lobbyId) {
 
     //Update active player
     activePlayerTracker<(players.length-1) ? activePlayerTracker++ : activePlayerTracker = 0
