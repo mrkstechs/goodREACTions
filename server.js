@@ -37,7 +37,8 @@ io.on("connection", socket => {
             io.sockets.adapter.rooms.get(lobbyId).host = socket.id;
             io.sockets.adapter.rooms.get(lobbyId).players = [username];
             const userList = io.sockets.adapter.rooms.get(lobbyId).players
-            socket.emit("send-to-lobby", lobbyId, username, userList)
+            const gameHost = io.sockets.adapter.rooms.get(lobbyId).host
+            socket.emit("send-to-lobby", lobbyId, username, userList, gameHost)
         }
         console.log(io.sockets.adapter.rooms)
     }, {cors: { origin: '*'}})
@@ -51,12 +52,11 @@ io.on("connection", socket => {
             socket.join(lobbyId)
             socket.emit("console-message", `Joined lobby. LobbyId: ${lobbyId}`)
 
-
-
+            const gameHost = io.sockets.adapter.rooms.get(lobbyId).host
             let userList = io.sockets.adapter.rooms.get(lobbyId).players;
             userList.push(username)
             
-            socket.emit("send-to-lobby", lobbyId, username, userList)
+            socket.emit("send-to-lobby", lobbyId, username, userList, gameHost)
             io.to(lobbyId).emit("user-joined", userList)
         }
         console.log(io.sockets.adapter.rooms)
