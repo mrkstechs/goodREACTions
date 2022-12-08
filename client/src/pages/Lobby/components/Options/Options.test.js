@@ -3,9 +3,8 @@ import { screen, render, fireEvent } from "@testing-library/react";
 import Options from "./index";
 
 describe("Options", () => {
-    it("Updates category state ", () => {
 
-
+    beforeEach(() => {
         const config ={
             category: "any",
             difficulty: "any",
@@ -14,11 +13,15 @@ describe("Options", () => {
             numQuestions: "10"
         }
 
-        const { getByText } = render(
+        render(
             <Options config={config}/>
           );
+    })
+
+    it("Updates category state ", () => {
 
         const handler = jest.fn() 
+        // const update = jest.fn() 
         fireEvent.change(screen.getByRole("combobox", {name: "category"}), {target : {value: "9"}})
 
         expect(handler).toHaveBeenCalled()
