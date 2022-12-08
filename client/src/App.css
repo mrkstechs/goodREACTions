@@ -28,7 +28,7 @@ body{
   width: 100%;
   align-self: stretch;
   justify-self: stretch;
-  border: solid 1px green;
+  /* border: solid 1px green; */
 }
 
 .background{
@@ -56,6 +56,7 @@ body{
   margin-left: auto;
   margin-right: auto;
   margin-top: 20px;
+  font-family: 'Raleway', sans-serif;
 }
 
 .homebtn:hover{
@@ -87,6 +88,7 @@ body{
   padding: 20px 200px;
   border-radius: 50px;
   background: #F5F5F5;
+  font-family: 'Raleway', sans-serif;
 }
 
 .backbtn{
@@ -100,6 +102,8 @@ body{
     background-color: #645CAA;
     font-weight: bold;
     cursor: pointer;
+    font-family: 'Raleway', sans-serif;
+    font-size: 15px;
   }
 
 .popupForm h2{
@@ -138,6 +142,8 @@ body{
   width: 50%;
   margin: auto;
   margin-top: 10px;
+  font-family: 'Raleway', sans-serif;
+  font-size: 15px;
 }
 /* .enter:hover{
   transition: 2s;
@@ -148,6 +154,7 @@ body{
   padding: 20px;
   background: #EBC7E8;
   width: 100%;
+  font-family: 'Raleway', sans-serif;
 }
 
 .txt:focus {
