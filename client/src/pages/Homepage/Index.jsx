@@ -67,9 +67,9 @@ const Homepage = () =>{
                         <h2>Create Lobby</h2>
                         <form id='popupCreate' onSubmit={createGame}>
                             <label htmlFor="username">User Name:</label>
-                            <input type="text" name='username' placeholder='Enter your name here...' className='txt' onChange={updateUsername} value={username} required/>
+                            <input aria-label='usernameInput' type="text" name='username' placeholder='Enter your name here...' className='txt' onChange={updateUsername} value={username} required/>
                             <label htmlFor="lobby">Lobby Name:</label>
-                            <input type="text" name='lobby' placeholder='Enter lobby ID here...' className='txt' onChange={updateLobbyId} value={lobbyId} required/>
+                            <input aria-label='lobbyInput' type="text" name='lobby' placeholder='Enter lobby ID here...' className='txt' onChange={updateLobbyId} value={lobbyId} required/>
                             <input type="submit" value="Enter" className='enter'/>
                         </form>
                     </div>
