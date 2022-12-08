@@ -106,80 +106,74 @@ io.on("connection", socket => {
             io.to(lobbyId).emit("game-starting", questionData)
     }})
 
-    socket.on("init-game", (lobbyId) => {
+    socket.on("init-game", async (lobbyId) => {
 
         let lobby = io.sockets.adapter.rooms.get(lobbyId)
         let questionData = lobby.questions
         let options = lobby.options
 
-        questionData.forEach(question => {
+        for (const question of questionData) {
     
             lobby = io.sockets.adapter.rooms.get(lobbyId)
             let activePlayer = lobby.activePlayer
 
             console.log("Current player:", activePlayer)
             // send question
-            io.to(lobbyId).emit("send-question", question.question) // recieve on client to display
+            console.log(question.question)
+            io.to(lobbyId).emit("send-question", question.question, activePlayer)          // recieve on client to display and know who to add score to / display as active
 
             // shuffles and sends answers - untested
             let answers = question.incorrect_answers
             answers.push(question.correct_answer)
             let shuffledAnswers = answers.sort((a, b) => Math.random() - 0.5)
-            io.to(lobbyId).emit("send-answers", shuffledAnswers)
+            io.to(lobbyId).emit("send-answers", shuffledAnswers)                        // recieve on client to display
 
             
-            // if time runs out skip to next
-            let timer = options.timer;
+            // wait for active player to answer
             let answered = false;
 
-            setInterval(() => {
-                if (timer == 0 && answered == false) {      // Checks if answered to not skip showing correct answer
-                    nextQuestion(lobbyId)
-                }
-                return timer--
-            }, 1000)
-
-
-            // wait for active player to answer
-            socket.on("answer-question", (answer) => {
-                
-                console.log("Answer sent by: ", socket.id)
-                console.log("Active player", activePlayer.socketId)
-
-                if( socket.id === activePlayer.socketId ){
-                    console.log("recieved answer: ", answer)
-                    answered = true
-                    if (answer == question.correct_answer) {
-                        io.to(lobbyId).emit("correct-answer")
-                        score = calculateScore(timer, options.timer)
-                        // add score to local leaderboard
-                    } else {
-                        io.to(lobbyId).emit("wrong-answer")
+            const response = new Promise((resolve) => {
+                socket.on("answer-question", (answer) => {                           // needs sent by the client then recieves returns below - timer on client, if timeout send "timeout" as answer
+                    console.log("Answer sent by: ", socket.id)
+                    console.log("Active player", activePlayer.socketId)                           
+                    if( socket.id === activePlayer.socketId ){
+                        resolve(answer)
                     }
-    
-                    nextQuestion(lobbyId)
-                }
-
+                })
             })
 
+            const answer = await response;
+                 
+            console.log("recieved answer: ", answer)
+            answered = true
+            if (answer == question.correct_answer) {
+                score = calculateScore(timer, options.timer)
+                io.to(lobbyId).emit("correct-answer", score)                    // recieve on client and add score on local leaderboard to activePlayer sent with question
+            } else if (answer == "timeout") {
+                io.to(lobbyId).emit("time-out")                                 // recieve on client to display timeout 
+            } else {
+                io.to(lobbyId).emit("wrong-answer")                             // recieve on client to display wrong answer
+            }
 
-            // next question
+            await nextQuestion(lobbyId)                               // updates active player and waits 5 seconds so screen can be displayed before next loop starts and next "send-question" is emitted
+        }
 
-        })
-        
+        io.to(lobbyId).emit("game-over")         // All questions answered, display winner on client
     })
-        // loop for number of questions
-        
 
+    
 
+    socket.on("add-highscore", (highscore) => {
+        if( socket.id === lobbyId.host ){
+            // Add score to leaderboard
+        }
+    })
 
-        // All questions answered, display winner
-
-        socket.on('disconnect', () => {
-
-        })
+    socket.on('disconnect', () => {
 
     })
+
+})
     
     
 async function fetchQuestions(options, players) {
@@ -209,7 +203,7 @@ async function fetchQuestions(options, players) {
 }
 
 
-function nextQuestion(lobbyId) {
+async function nextQuestion(lobbyId) {
 
     const lobby = io.sockets.adapter.rooms.get(lobbyId)
     let options = lobby.options
@@ -227,15 +221,19 @@ function nextQuestion(lobbyId) {
 
     // wait for 5 seconds show correct answer to users and get ready next player...
 
+    const response = new Promise((resolve) => {
         let pause = 5
 
         setInterval(() => {
             if (pause == 0) {
-                io.to(lobbyId).emit("show-answer")
+                resolve()
             }
             return pause--
         }, 1000)
+    })
     
+    const next = await response
+
 }
 
 function calculateScore(timer, maxTime) {
