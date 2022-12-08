@@ -249,4 +249,4 @@ function calculateScore(timer, maxTime) {
     return(Math.floor(score))
 }
 
-module.exports = server
+module.exports = { server, fetchQuestions}
