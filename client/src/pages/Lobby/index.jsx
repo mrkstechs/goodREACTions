@@ -23,6 +23,9 @@ const Lobby = () => {
         numQuestions: "10"
     })
 
+    useEffect(() => {
+        console.log(gameSettings)
+    })
     // Navigation
     const navigate = useNavigate()
     
