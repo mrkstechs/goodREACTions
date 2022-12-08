@@ -14,10 +14,10 @@
     "coverage": "jest --coverage"
   },
   "jest": {
-    "testPathIgnorePatterns" : [
+    "testPathIgnorePatterns": [
       "<rootDir>/client"
     ]
-    },
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/mrkstechs/goodREACTions.git"
