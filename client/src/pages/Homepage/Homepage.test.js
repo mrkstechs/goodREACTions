@@ -26,6 +26,11 @@ describe('Homepage', () =>{
     })
 
     test('It has a form', () =>{
+        const form = screen.getByRole('form');
+        expect(form).toBeInTheDocument();
+    })
+
+    test('Each Input has a label', () =>{
         
     })
 })

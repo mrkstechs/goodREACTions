@@ -9,6 +9,7 @@ const Homepage = () =>{
     
     const [lobbyId, setLobbyId] = useState("")
     const [username, setUsername] = useState("")
+    // const [isShown, setIsShown] = useState(true)
 
     socket.on("connect", () => {
         console.log(`Connected to socket server with client id: ${socket.id}`)
@@ -56,14 +57,19 @@ const Homepage = () =>{
         setLobbyId(e.target.value)
     }
 
+    // unction backBtn(){
+    //     setIsShown(current => !current)
+    // }f  style={{display : isShown ? 'block' : 'none'}}
     return (
         <>
       
         <div className='background'>
             <Logo/>
             <div id='homebtns'>
-                <Popup trigger={<button>Create Lobby</button>}>
+                <Popup trigger={<button className='homebtn'>Create Lobby</button>}>
+                    {close =>(
                     <div className='popupForm'>
+                        <button className='backbtn' onClick={close}>back</button>
                         <h2>Create Lobby</h2>
                         <form id='popupCreate' onSubmit={createGame}>
                             <label htmlFor="username">User Name:</label>
@@ -73,10 +79,13 @@ const Homepage = () =>{
                             <input type="submit" value="Enter" className='enter'/>
                         </form>
                     </div>
+                )}
                 </Popup>
 
-                <Popup trigger={<button>Join Lobby</button>}>
-                    <div className='popupForm'>
+                <Popup trigger={<button className='homebtn'>Join Lobby</button>}>
+                    {close =>(
+                        <div className='popupForm'>
+                            <button className='backbtn' onClick={close}>back</button>
                         <h2>Join Lobby</h2>
                         <form id='popupJoin' onSubmit={joinGame}>
                             <label htmlFor="username">User Name:</label>
@@ -86,8 +95,9 @@ const Homepage = () =>{
                             <input type="submit" value="Enter" className='enter'/>
                         </form>
                     </div>
+                    )}
                 </Popup>
-                <button onClick = {toLeaderboard}>Leaderboard</button>
+                <button onClick = {toLeaderboard}className='homebtn'>Leaderboard</button>
             </div>
         </div>
 

@@ -42,9 +42,10 @@ body{
   background: #645CAA;
   display: flex;
   flex-direction: column;
+  padding-top: 10px;
 }
 
-button{
+.homebtn{
   width: 10vw;
   background: #FFFFFF;
   border: none;
@@ -57,7 +58,7 @@ button{
   margin-top: 20px;
 }
 
-button:hover{
+.homebtn:hover{
   background-color: #EBC7E8;
   transition: 1s;
 }
@@ -72,21 +73,50 @@ button:hover{
 
 .popupForm{
   /* border: 1px solid black; */
-  margin: auto;
+  /* position: absolute;
+  bottom: 0;
+  right: 50;
+  left: 50;
+  margin: auto; */
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  margin-top: -180px;
+  margin-left: -300px;
   width: 50vw;
   padding: 20px 200px;
   border-radius: 50px;
   background: #F5F5F5;
 }
+
+.backbtn{
+  margin-left: 250px;
+  width: 10vw;
+    background: #FFFFFF;
+    border: none;
+    border-radius: 20px;
+    height: 40px;
+    color: white;
+    background-color: #645CAA;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
 .popupForm h2{
   text-align: center;
-
+  
 }
 .popupForm form{
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   text-align: center;
+  /* border: 1px solid black; */
+  margin-left: -100px;
+  margin-right: -100px;
+  /* padding: 0px 200px; */
+  /* width: 50vw; */
+  /* margin-right: -500px; */
 }
 
 .popupForm label{
@@ -102,20 +132,28 @@ button:hover{
   padding: 20px;
   background-color: #645CAA;
   margin-top: 20px;
+  font-weight: bold;
+  color: white;
+  cursor: pointer;
+  width: 50%;
+  margin: auto;
+  margin-top: 10px;
 }
-.enter:hover{
+/* .enter:hover{
   transition: 2s;
   color: white;
-}
+} */
 .popupForm .txt {
   border: none;
   padding: 20px;
   background: #EBC7E8;
+  width: 100%;
 }
 
 .txt:focus {
   outline: none;
 }
+
 
 /* QuestionPage */
 .stats {
