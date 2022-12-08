@@ -199,8 +199,13 @@ async function fetchQuestions(options, players) {
         url = `https://opentdb.com/api.php?amount=${options.numQuestions}&category=${options.category}&difficulty=${options.difficulty}&type=multiple`
     }
 
-    const response = await axios.get(url)
-    return questionData = response.data.results
+    try {
+        const response = await axios.get(url)
+        return questionData = response.data.results
+    } catch (err) {
+        console.log("Error fetching questions: ", err)
+    }
+
 }
 
 
