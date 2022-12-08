@@ -7,7 +7,7 @@ const NavBar = () =>{
     const navigate = useNavigate()
     return(<>
             <nav id="navBar">
-                <h1>Untitled Quiz Game</h1>
+                <NavLink to={'/'}><h1>Let's see who REACTs the Quizzic</h1></NavLink>
                 <div id="icon" onClick={() => navigate(-1)}>
                     <FaArrowCircleLeft/>
                 </div>

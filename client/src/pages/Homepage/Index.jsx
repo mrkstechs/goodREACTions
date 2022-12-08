@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import Popup from 'reactjs-popup'
 
 import { socket } from "../../App";
+import { Logo } from '../../components';
 
 const Homepage = () =>{
     
@@ -59,7 +60,7 @@ const Homepage = () =>{
         <>
       
         <div className='background'>
-            {/* logo component */}
+            <Logo/>
             <div id='homebtns'>
                 <Popup trigger={<button>Create Lobby</button>}>
                     <div className='popupForm'>
