@@ -5,15 +5,14 @@ import LoadingSpinner from "./utils/loading-spinner";
 import ErrorMessage from "./utils/error-message";
 import { useLocation } from 'react-router-dom'
 
+import { socket } from '../../App'
+
 function QuestionPage() {
   const [quizFetch, setQuizFetch] = useState({
     isLoading: true,
     errorMessage: "",
     data: null,
   });
-
-  const { state } = useLocation()
-  const { questionData } = state
 
   // Empty array for dependencies means the effect only runs on mount.
   useEffect(() => {
@@ -71,6 +70,13 @@ function QuestionPage() {
 
   const { isLoading, errorMessage, data } = quizFetch;
 
+  // socket.on("send-question", (question) => {
+  //   setQuizFetch({
+  //     isLoading: false,
+  //     errorMessage: "",
+  //     data: question,
+  //   })
+  // })
   let contents;
   if (isLoading) contents = <LoadingSpinner />;
   else if (errorMessage !== "") contents = <ErrorMessage>{errorMessage}</ErrorMessage>;
