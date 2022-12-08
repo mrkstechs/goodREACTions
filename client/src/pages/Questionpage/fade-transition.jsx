@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion";
-
+import React from 'react'
 /**
  * Wraps around a FadeTransition. If you want enter AND exit transitions, be sure that you put
  * your FadeTransition inside of a FadeWrapper.

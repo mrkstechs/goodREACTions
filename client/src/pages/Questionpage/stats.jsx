@@ -1,4 +1,5 @@
 // import ";
+import React from 'react'
 
 function Stat({ label, value }) {
     return (
