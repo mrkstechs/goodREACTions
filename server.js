@@ -112,8 +112,6 @@ io.on("connection", socket => {
         let questionData = lobby.questions
         let options = lobby.options
 
-        console.log(questionData)
-
         questionData.forEach(question => {
     
             lobby = io.sockets.adapter.rooms.get(lobbyId)
@@ -193,15 +191,14 @@ async function fetchQuestions(options, players) {
     }
     if (options.category == "any" && options.difficulty == "any") {
         url = `https://opentdb.com/api.php?amount=${options.numQuestions}`
-    } else if (!options.category == "any"  && options.difficulty == "any") {
+    } else if (options.category != "any" && options.difficulty == "any") {
         url = `https://opentdb.com/api.php?amount=${options.numQuestions}&category=${options.category}`
-    } else if (options.category == "any" && !options.difficulty == "any") {
+    } else if (options.category == "any" && options.difficulty != "any") {
         url = `https://opentdb.com/api.php?amount=${options.numQuestions}&difficulty=${options.difficulty}`
-    } else if (!options.category == "any" && !options.difficulty == "any"){
+    } else if (options.category != "any" && !options.difficulty != "any"){
         url = `https://opentdb.com/api.php?amount=${options.numQuestions}&category=${options.category}&difficulty=${options.difficulty}`
     }
 
-    console.log(url)
     const response = await axios.get(url)
     return questionData = response.data.results
 }
