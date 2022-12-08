@@ -103,7 +103,7 @@ io.on("connection", socket => {
 
             // Tells lobby game is starting
             
-            io.to(lobbyId).emit("game-starting")
+            io.to(lobbyId).emit("game-starting", questionData)
     }})
 
     socket.on("init-game", (lobbyId) => {

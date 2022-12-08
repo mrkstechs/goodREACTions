@@ -46,11 +46,11 @@ const Lobby = () => {
         socket.emit("start-game", lobbyId, options)
     }
 
-    socket.on("game-starting", () => {
+    socket.on("game-starting", (questionData) => {
         console.log("Starting game...")
         socket.emit("init-game", lobbyId)
 
-        navigate('/question')
+        navigate('/question', {state: {questionData}})
     })
 
     function backToHome() {

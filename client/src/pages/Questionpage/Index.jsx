@@ -3,6 +3,7 @@ import he from "he";
 import Game from "./game";
 import LoadingSpinner from "./utils/loading-spinner";
 import ErrorMessage from "./utils/error-message";
+import { useLocation } from 'react-router-dom'
 
 function QuestionPage() {
   const [quizFetch, setQuizFetch] = useState({
@@ -10,6 +11,9 @@ function QuestionPage() {
     errorMessage: "",
     data: null,
   });
+
+  const { state } = useLocation()
+  const { questionData } = state
 
   // Empty array for dependencies means the effect only runs on mount.
   useEffect(() => {
