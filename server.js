@@ -184,7 +184,11 @@ io.on("connection", socket => {
     
 async function fetchQuestions(options, players) {
     let url;
-    options.numQuestions = options.numQuestions * players.length
+    if (options.numQuestions * players.length <= 50) {
+        options.numQuestions = options.numQuestions * players.length
+    } else {
+        options.numQuestions = 50;
+    }
     if (options.category == "any" && options.difficulty == "any") {
         url = `https://opentdb.com/api.php?amount=${options.numQuestions}`
     } else if (!options.category == "any"  && options.difficulty == "any") {
