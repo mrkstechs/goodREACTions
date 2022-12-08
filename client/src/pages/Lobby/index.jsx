@@ -7,43 +7,28 @@ import { socket } from "../../App";
 import "./style.css"
 
 import { Options, PlayerList } from "./components"
+import { useUpdateAppState } from "../../context";
 
 const Lobby = () => {
 
     const { state } = useLocation()
     const { lobbyId, username, userList, host } = state
-
-    const [category, updateCategory] = useState("any")
-    const [difficulty, updateDifficulty] = useState("any")
-    const [timer, updateTimer] = useState("20")
-    const [maxPlayers, updateMaxPlayers] = useState("4")
-    const [numQuestions, updateNumQuestions] = useState("10")
-
-    let options = {
-        category: "",
-        difficulty: "",
-        timer: "",
+    const [gameState, updateGameState] = useUpdateAppState()
+    const [gameSettings, setGameSettings] = useState({
+        host: null,
+        category: "any",
+        difficulty: "any",
+        timer: "20",
         maxPlayers: "4",
         numQuestions: "10"
-    }
-
-    useEffect(() => {
-        options = {
-            category: category,
-            difficulty: difficulty,
-            timer: timer,
-            maxPlayers: maxPlayers,
-            numQuestions: numQuestions
-        }
-    }, [category, difficulty, timer, maxPlayers, numQuestions])
-
+    })
 
     // Navigation
     const navigate = useNavigate()
     
     function startGame() {
         console.log(socket)
-        socket.emit("start-game", lobbyId, options)
+        socket.emit("start-game", lobbyId, gameSettings)
     }
 
     socket.on("game-starting", (questionData) => {
@@ -60,8 +45,8 @@ const Lobby = () => {
     return <div id="lobby" className="lobbyBackground">
             <h1><span role="heading" aria-label="lobbyHeading">Lobby Id: {lobbyId}</span></h1>
             <div className="lobbyMain">
-                <PlayerList lobbyId={lobbyId} options={options} initUserList={userList}/>
-                <Options category={category} difficulty={difficulty} timer={timer} maxPlayers={maxPlayers} numQuestions={numQuestions} updateCategory={updateCategory} updateDifficulty={updateDifficulty} updateTimer={updateTimer} updateMaxPlayers={updateMaxPlayers} updateNumQuestions={updateNumQuestions}/>
+                <PlayerList lobbyId={lobbyId} options={gameSettings} initUserList={userList}/>
+                <Options config={gameSettings} update={setGameSettings}/>
             </div>
             <div className="lobbyButtons">
                 <button onClick={backToHome} name="backButton">Back</button>

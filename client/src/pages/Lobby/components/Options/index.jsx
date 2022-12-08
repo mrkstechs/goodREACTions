@@ -1,37 +1,35 @@
-import React from "react";
+import React, { useEffect } from "react";
 
-function Options ({ category, difficulty, timer, maxPlayers, numQuestions , updateCategory, updateDifficulty, updateTimer, updateMaxPlayers, updateNumQuestions }) {
+function Options ({ config, update }) {
 
-    async function setCategory(e) {
-        const newCategory = e.target.value
-        updateCategory(newCategory)
-    }
+    const {category, difficulty, timer, maxPlayers, numQuestions} = config
 
-    function setDifficulty(e) {
-        const newDifficulty = e.target.value
-        updateDifficulty(newDifficulty)
-    }
-
-    function setTimer(e) {
-        const newTimer = e.target.value
-        updateTimer(newTimer)
-    }
-
-    function setMaxPlayers(e) {
-        const newMaxPlayers = e.target.value
-        updateMaxPlayers(newMaxPlayers)
-    }
-
-    
-    function setNumQuestions(e) {
-        const newNumQuestions = e.target.value
-        updateNumQuestions(newNumQuestions)
+    const handler = (e) => {
+        switch (e.target.name) {
+            case 'category':
+                update({ ...config, category: e.target.value })
+                break;
+            case 'difficulty':
+                update({ ...config, difficulty: e.target.value })
+                break;
+            case 'timer':
+                update({ ...config, timer: e.target.value })
+                break;
+            case 'maxPlayers':
+                update({ ...config, maxPlayers: e.target.value })
+                break;
+            case 'numQuestions':
+                update({ ...config, numQuestions: e.target.value })
+                break;
+            default:
+                break;
+        }
     }
 
     return <div id="lobbyOptions">
                 <h2>Options:</h2>
                 <form id="optionsForm">
-                    <select aria-label="category" name="category" className="dropdownInput" onChange={setCategory} value={category}>
+                    <select aria-label="category" name="category" className="dropdownInput" onChange={handler} value={category}>
                         <option value="any">Any Category</option>
                         <option value="9">General Knowledge</option>
                         <option value="10">Entertainment: Books</option>
@@ -58,18 +56,18 @@ function Options ({ category, difficulty, timer, maxPlayers, numQuestions , upda
                         <option value="31">Entertainment: Japanese Anime &amp; Manga</option>
                         <option value="32">Entertainment: Cartoon &amp; Animations</option>
                     </select>  
-                    <select name="difficulty" className="dropdownInput" onChange={setDifficulty} value={difficulty}>
+                    <select name="difficulty" className="dropdownInput" onChange={handler} value={difficulty}>
                         <option value="any">Any Difficulty</option>
                         <option value="easy">Easy</option>
                         <option value="medium">Medium</option>
                         <option value="hard">Hard</option>
                     </select>
                     <label htmlFor="timer">Time Per Question: {timer} seconds</label>
-                    <input type="range" min="5" max="60" name="timer" className="inputSlider" onChange={setTimer} value={timer} />
+                    <input type="range" min="5" max="60" name="timer" className="inputSlider" onChange={handler} value={timer} />
                     <label htmlFor="maxPlayers">Max Players: {maxPlayers} players</label>
-                    <input type="range" min="1" max="8" name="maxPlayers" className="inputSlider" onChange={setMaxPlayers} value={maxPlayers}/>
+                    <input type="range" min="1" max="8" name="maxPlayers" className="inputSlider" onChange={handler} value={maxPlayers}/>
                     <label htmlFor="numQuestions">Number of Questions: {numQuestions} questions</label>
-                    <input type="range" min="1" max="20" name="numQuestions" className="inputSlider" onChange={setNumQuestions} value={numQuestions}/>
+                    <input type="range" min="1" max="20" name="numQuestions" className="inputSlider" onChange={handler} value={numQuestions}/>
                 </form>
             </div>                
 }
