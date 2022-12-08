@@ -190,13 +190,13 @@ async function fetchQuestions(options, players) {
         options.numQuestions = 50;
     }
     if (options.category == "any" && options.difficulty == "any") {
-        url = `https://opentdb.com/api.php?amount=${options.numQuestions}`
+        url = `https://opentdb.com/api.php?amount=${options.numQuestions}&type=multiple`
     } else if (options.category != "any" && options.difficulty == "any") {
-        url = `https://opentdb.com/api.php?amount=${options.numQuestions}&category=${options.category}`
+        url = `https://opentdb.com/api.php?amount=${options.numQuestions}&category=${options.category}&type=multiple`
     } else if (options.category == "any" && options.difficulty != "any") {
-        url = `https://opentdb.com/api.php?amount=${options.numQuestions}&difficulty=${options.difficulty}`
+        url = `https://opentdb.com/api.php?amount=${options.numQuestions}&difficulty=${options.difficulty}&type=multiple`
     } else if (options.category != "any" && !options.difficulty != "any"){
-        url = `https://opentdb.com/api.php?amount=${options.numQuestions}&category=${options.category}&difficulty=${options.difficulty}`
+        url = `https://opentdb.com/api.php?amount=${options.numQuestions}&category=${options.category}&difficulty=${options.difficulty}&type=multiple`
     }
 
     const response = await axios.get(url)
