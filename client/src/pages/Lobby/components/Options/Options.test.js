@@ -5,21 +5,22 @@ import Options from "./index";
 describe("Options", () => {
     it("Updates category state ", () => {
 
-        const updateCategory = jest.fn() 
+
+        const config ={
+            category: "any",
+            difficulty: "any",
+            timer: "30",
+            maxPlayers: "4",
+            numQuestions: "10"
+        }
+
         const { getByText } = render(
-            <Options
-                category="any" 
-                difficulty="any" 
-                timer="30" 
-                maxPlayers="4"
-                numQuestions="10"
-            />
+            <Options config={config}/>
           );
 
-        fireEvent.keyDown(screen.getByRole("combobox", {name: "category"}))
+        const handler = jest.fn() 
+        fireEvent.change(screen.getByRole("combobox", {name: "category"}), {target : {value: "9"}})
 
-        expect(updateCategory).toHaveBeenCalledWith("9")
-
+        expect(handler).toHaveBeenCalled()
     })
-
 })
