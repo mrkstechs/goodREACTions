@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "test": "jest --watch --silent --setupFilesAfterEnv ./src/test/setupTests.js"
+    "test": "jest --watch --silent --setupFilesAfterEnv ./src/test/setupTests.js",
+    "coverage": "jest --coverage --setupFilesAfterEnv ./src/test/setupTests.js"
   },
   "jest": {
     "moduleNameMapper": {
