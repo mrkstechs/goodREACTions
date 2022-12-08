@@ -2,21 +2,25 @@
     position: relative;
     width: 200px;
     height: 300px;
-    border: solid 1px red;
+    /* border: solid 1px red; */
 }
 
 .second{
    height: 75%;
    margin-bottom: -75px;
    order: 1;
+   
+background: #BFACE0;
 }
 
 .third{
     height: 50%;
     margin-bottom: -150px;
     order: 3;
+    background: #957ABD;
 }
 
 .first{
     order: 2;
+    background: #C4B2DF;
 }
