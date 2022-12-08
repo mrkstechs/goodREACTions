@@ -10,8 +10,14 @@
     "dev": "nodemon --ignore ./client/ -L index.js",
     "up": "bash _scripts/start.sh",
     "down": "bash _scripts/stop.sh",
-    "remove": "bash _scripts/teardown.sh"
+    "remove": "bash _scripts/teardown.sh",
+    "coverage": "jest --coverage"
   },
+  "jest": {
+    "testPathIgnorePatterns" : [
+      "<rootDir>/client"
+    ]
+    },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/mrkstechs/goodREACTions.git"
@@ -24,7 +30,8 @@
   "homepage": "https://github.com/mrkstechs/goodREACTions#readme",
   "devDependencies": {
     "jest": "^29.3.1",
-    "nodemon": "^2.0.20"
+    "nodemon": "^2.0.20",
+    "socket.io-client": "^4.5.4"
   },
   "dependencies": {
     "axios": "^1.2.1",

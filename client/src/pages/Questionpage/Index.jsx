@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import he from "he";
 import Game from "./game";
 import LoadingSpinner from "./utils/loading-spinner";

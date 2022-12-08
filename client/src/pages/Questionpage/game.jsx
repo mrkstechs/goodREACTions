@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import Stats from "./stats";
 import TriviaItem from "./trivia-item";
