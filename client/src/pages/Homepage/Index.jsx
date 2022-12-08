@@ -56,10 +56,6 @@ const Homepage = () =>{
     function updateLobbyId(e) {
         setLobbyId(e.target.value)
     }
-
-    // unction backBtn(){
-    //     setIsShown(current => !current)
-    // }f  style={{display : isShown ? 'block' : 'none'}}
     return (
         <>
       
@@ -67,9 +63,7 @@ const Homepage = () =>{
             <Logo/>
             <div id='homebtns'>
                 <Popup trigger={<button className='homebtn'>Create Lobby</button>}>
-                    {close =>(
                     <div className='popupForm'>
-                        <button className='backbtn' onClick={close}>back</button>
                         <h2>Create Lobby</h2>
                         <form id='popupCreate' onSubmit={createGame}>
                             <label htmlFor="username">User Name:</label>
@@ -79,13 +73,10 @@ const Homepage = () =>{
                             <input type="submit" value="Enter" className='enter'/>
                         </form>
                     </div>
-                )}
                 </Popup>
 
                 <Popup trigger={<button className='homebtn'>Join Lobby</button>}>
-                    {close =>(
                         <div className='popupForm'>
-                            <button className='backbtn' onClick={close}>back</button>
                         <h2>Join Lobby</h2>
                         <form id='popupJoin' onSubmit={joinGame}>
                             <label htmlFor="username">User Name:</label>
@@ -95,7 +86,6 @@ const Homepage = () =>{
                             <input type="submit" value="Enter" className='enter'/>
                         </form>
                     </div>
-                    )}
                 </Popup>
                 <button onClick = {toLeaderboard}className='homebtn'>Leaderboard</button>
             </div>
