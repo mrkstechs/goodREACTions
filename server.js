@@ -2,6 +2,7 @@ const path = require('path')
 const express = require('express')
 const cors = require('cors')
 const dotenv = require('dotenv').config()
+const axios = require('axios')
 
 const server = express()
 const apiRoutes = require('./routes')
@@ -87,30 +88,32 @@ io.on("connection", socket => {
             // Get questions - we can either add handling for true/false answers or only fetch multiple choice
             //https://opentdb.com/api.php?amount=10&category=22&difficulty=medium
 
-            const questionData = [{
-                category: "General Knowledge",
-                type: "multiple",
-                difficulty: "easy",
-                question: "How would one say goodbye in Spanish?",
-                correct_answer: "Adi&oacute;s",
-                incorrect_answers: [
-                " Hola",
-                "Au Revoir",
-                "Salir"
-                ]
-                },
-                {
-                category: "General Knowledge",
-                type: "multiple",
-                difficulty: "easy",
-                question: "What is the shape of the toy invented by Hungarian professor Ernő Rubik?",
-                correct_answer: "Cube",
-                incorrect_answers: [
-                "Sphere",
-                "Cylinder",
-                "Pyramid"
-                ]
-                }]
+            let questionData = fetchQuestions(options)
+
+            // const questionData = [{
+            //     category: "General Knowledge",
+            //     type: "multiple",
+            //     difficulty: "easy",
+            //     question: "How would one say goodbye in Spanish?",
+            //     correct_answer: "Adi&oacute;s",
+            //     incorrect_answers: [
+            //     " Hola",
+            //     "Au Revoir",
+            //     "Salir"
+            //     ]
+            //     },
+            //     {
+            //     category: "General Knowledge",
+            //     type: "multiple",
+            //     difficulty: "easy",
+            //     question: "What is the shape of the toy invented by Hungarian professor Ernő Rubik?",
+            //     correct_answer: "Cube",
+            //     incorrect_answers: [
+            //     "Sphere",
+            //     "Cylinder",
+            //     "Pyramid"
+            //     ]
+            //     }]
 
             // initialise active player and question num
 
@@ -203,7 +206,21 @@ io.on("connection", socket => {
     })
     
     
+async function fetchQuestions(options) {
+    let url;
+    if (options.category == "any" && options.difficulty == "any") {
+        url = `https://opentdb.com/api.php?amount=${options.numQuestions}`
+    } else if (!options.category == "any"  && options.difficulty == "any") {
+        url = `https://opentdb.com/api.php?amount=${options.numQuestions}&category=${options.category}`
+    } else if (options.category == "any" && !options.difficulty == "any") {
+        url = `https://opentdb.com/api.php?amount=${options.numQuestions}&difficulty=${options.difficulty}`
+    } else if (!options.category == "any" && !options.difficulty == "any"){
+        url = `https://opentdb.com/api.php?amount=${options.numQuestions}&category=${options.category}&difficulty=${options.difficulty}`
+    }
 
+    const response = await axios.get(url)
+    return questionData = response.results
+}
 
 
 function nextQuestion(lobbyId) {
