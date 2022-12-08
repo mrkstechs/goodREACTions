@@ -78,7 +78,7 @@ io.on("connection", socket => {
     Game Start
     */
 
-    socket.on("start-game", (lobbyId, options) => {
+    socket.on("start-game", async (lobbyId, options) => {
         if (socket.id === io.sockets.adapter.rooms.get(lobbyId).host) {
             console.log("Starting game in lobby:", lobbyId)
             console.log("With options:", options)
@@ -98,7 +98,7 @@ io.on("connection", socket => {
             lobby.options = options
 
             // Fetch questions from API
-            let questionData = fetchQuestions(options, players)
+            let questionData = await fetchQuestions(options, players)
             lobby.questions = questionData
 
             // Tells lobby game is starting
@@ -111,6 +111,8 @@ io.on("connection", socket => {
         let lobby = io.sockets.adapter.rooms.get(lobbyId)
         let questionData = lobby.questions
         let options = lobby.options
+
+        console.log(questionData)
 
         questionData.forEach(question => {
     
@@ -199,8 +201,9 @@ async function fetchQuestions(options, players) {
         url = `https://opentdb.com/api.php?amount=${options.numQuestions}&category=${options.category}&difficulty=${options.difficulty}`
     }
 
+    console.log(url)
     const response = await axios.get(url)
-    return questionData = response.results
+    return questionData = response.data.results
 }
 
 
