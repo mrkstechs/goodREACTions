@@ -163,9 +163,10 @@ io.on("connection", socket => {
 
     
 
-    socket.on("add-highscore", (highscore) => {
+    socket.on("add-highscore", (name, score) => {
         if( socket.id === lobbyId.host ){
             // Add score to leaderboard
+            axios.post("http://localhost:3000/api/highscores", {body: {name, score}})
         }
     })
 
