@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@100;400;500;700;900&display=swap');
+
 #navBar{
   width: 100%;
     text-align: center;
@@ -12,4 +14,16 @@
     margin-top: -55px;
     margin-right: 10px;
     font-size: 30px;
+  }
+
+  a{
+    text-decoration: none;
+    color: white;
+    font-family: 'Raleway', sans-serif;
+  }
+
+  #navBar .logo{
+    width: 200px;
+    height: 50px;
+    margin: 1em auto;
   }
