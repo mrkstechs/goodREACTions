@@ -13,7 +13,7 @@ const Lobby = () => {
 
     const { state } = useLocation()
     const { lobbyId, username, userList, host } = state
-    const [gameState, updateGameState] = useUpdateAppState()
+    // const [gameState, updateGameState] = useUpdateAppState()
     const [gameSettings, setGameSettings] = useState({
         host: null,
         category: "any",
