@@ -2,6 +2,7 @@ const path = require('path')
 const express = require('express')
 const cors = require('cors')
 const dotenv = require('dotenv').config()
+const axios = require('axios')
 
 const server = express()
 const apiRoutes = require('./routes')
@@ -84,33 +85,8 @@ io.on("connection", socket => {
 
             console.log(io.sockets.adapter.rooms.get(lobbyId))
 
-            // Get questions - we can either add handling for true/false answers or only fetch multiple choice
-            //https://opentdb.com/api.php?amount=10&category=22&difficulty=medium
 
-            const questionData = [{
-                category: "General Knowledge",
-                type: "multiple",
-                difficulty: "easy",
-                question: "How would one say goodbye in Spanish?",
-                correct_answer: "Adi&oacute;s",
-                incorrect_answers: [
-                " Hola",
-                "Au Revoir",
-                "Salir"
-                ]
-                },
-                {
-                category: "General Knowledge",
-                type: "multiple",
-                difficulty: "easy",
-                question: "What is the shape of the toy invented by Hungarian professor Ernő Rubik?",
-                correct_answer: "Cube",
-                incorrect_answers: [
-                "Sphere",
-                "Cylinder",
-                "Pyramid"
-                ]
-                }]
+
 
             // initialise active player and question num
 
@@ -119,8 +95,11 @@ io.on("connection", socket => {
             lobby.activePlayerTracker = 0
             lobby.activePlayer = {socketId: lobby.sockets[lobby.activePlayerTracker],
                                 username: players[lobby.activePlayerTracker]}
-            lobby.questions = questionData
             lobby.options = options
+
+            // Fetch questions from API
+            let questionData = fetchQuestions(options, players)
+            lobby.questions = questionData
 
             // Tells lobby game is starting
             
@@ -203,7 +182,26 @@ io.on("connection", socket => {
     })
     
     
+async function fetchQuestions(options, players) {
+    let url;
+    if (options.numQuestions * players.length <= 50) {
+        options.numQuestions = options.numQuestions * players.length
+    } else {
+        options.numQuestions = 50;
+    }
+    if (options.category == "any" && options.difficulty == "any") {
+        url = `https://opentdb.com/api.php?amount=${options.numQuestions}`
+    } else if (!options.category == "any"  && options.difficulty == "any") {
+        url = `https://opentdb.com/api.php?amount=${options.numQuestions}&category=${options.category}`
+    } else if (options.category == "any" && !options.difficulty == "any") {
+        url = `https://opentdb.com/api.php?amount=${options.numQuestions}&difficulty=${options.difficulty}`
+    } else if (!options.category == "any" && !options.difficulty == "any"){
+        url = `https://opentdb.com/api.php?amount=${options.numQuestions}&category=${options.category}&difficulty=${options.difficulty}`
+    }
 
+    const response = await axios.get(url)
+    return questionData = response.results
+}
 
 
 function nextQuestion(lobbyId) {

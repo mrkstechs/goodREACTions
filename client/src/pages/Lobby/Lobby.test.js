@@ -1,11 +1,3 @@
-// import { screen, render } from '@testing-library/react';
-// import Lobby from '.'
-// import {BrowserRouter as Router} from 'react-router-dom';
-
-// const { createServer } = require("http");
-// const { Server } = require("socket.io");
-// const Client = require("socket.io-client");
-
 import React from "react";
 import { screen, render, fireEvent } from "@testing-library/react";
 import { useLocation, useNavigate } from 'react-router-dom'
@@ -65,17 +57,6 @@ jest.mock("react-router-dom", () => ({
       expect(navigate).toHaveBeenCalledWith("/question");
     });
   });
-
-
-
-
-
-
-
-
-
-
-
 
 // describe('Lobby', () =>{
 //     let io, serverSocket, clientSocket;
