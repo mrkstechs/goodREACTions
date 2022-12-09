@@ -1,6 +1,8 @@
 import { screen, render } from '@testing-library/react';
 import NavBar from '.'
 import {BrowserRouter as Router} from 'react-router-dom';
+import React from 'react'
+import '@testing-library/jest-dom'
 
 describe('NavBar', () =>{
     beforeEach(() =>{
@@ -18,6 +20,6 @@ describe('NavBar', () =>{
     test('It has a heading', () =>{
         const heading = screen.getByRole('heading')
         expect(heading).toBeInTheDocument()
-        expect(heading.textContent).toContain("Untitled Quiz Game")
+        expect(heading.textContent).toContain("Let's see who REACTs the Quizzic")
     })
 })
