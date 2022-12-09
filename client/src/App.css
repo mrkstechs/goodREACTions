@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@100;400;500;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rubik&display=swap');
 
 *{
   box-sizing: border-box;
@@ -41,7 +41,7 @@ body{
   margin-top: 10px;
   height: 80vh;
   border-radius: 50px;
-  background: #645CAA;
+  background: #6A5AE0;
   display: flex;
   flex-direction: column;
   padding-top: 10px;
@@ -53,12 +53,12 @@ body{
   border: none;
   border-radius: 20px;
   height: 40px;
-  color: #645CAA;
+  color: #6A5AE0;
   font-weight: bold;
   margin-left: auto;
   margin-right: auto;
   margin-top: 20px;
-  font-family: 'Raleway', sans-serif;
+  font-family: 'Rubik', sans-serif;
 }
 
 .homebtn:hover{
@@ -90,7 +90,7 @@ body{
   padding: 20px 200px;
   border-radius: 50px;
   background: #F5F5F5;
-  font-family: 'Raleway', sans-serif;
+  font-family: 'Rubik', sans-serif;
 }
 
 .backbtn{
@@ -101,10 +101,10 @@ body{
     border-radius: 20px;
     height: 40px;
     color: white;
-    background-color: #645CAA;
+    background-color: #6A5AE0;
     font-weight: bold;
     cursor: pointer;
-    font-family: 'Raleway', sans-serif;
+    font-family: 'Rubik', sans-serif;
     font-size: 15px;
   }
 
@@ -136,7 +136,7 @@ body{
 .popupForm .enter{
   border: none;
   padding: 20px;
-  background-color: #645CAA;
+  background-color: #6A5AE0;
   margin-top: 20px;
   font-weight: bold;
   color: white;
@@ -144,7 +144,7 @@ body{
   width: 50%;
   margin: auto;
   margin-top: 10px;
-  font-family: 'Raleway', sans-serif;
+  font-family: 'Rubik', sans-serif;
   font-size: 15px;
 }
 /* .enter:hover{
@@ -156,7 +156,7 @@ body{
   padding: 20px;
   background: #EBC7E8;
   width: 100%;
-  font-family: 'Raleway', sans-serif;
+  font-family: 'Rubik', sans-serif;
 }
 
 .txt:focus {
@@ -177,7 +177,7 @@ body{
   min-width: 100px;
   text-align: center;
   color: white;
-  background: #000067;
+  background: #6A5AE0;
   padding: 0.4rem 0.6rem;
   border-radius: 0.5rem;
   margin: 0 0.25rem;
@@ -220,7 +220,7 @@ body{
   height: 100%;
   padding: 1.5rem 1.5rem;
   cursor: pointer;
-  background: #6060ff;
+  background: #6A5AE0;
   color: white;
   font-size: 1.4rem;
   border-radius: 1rem;
