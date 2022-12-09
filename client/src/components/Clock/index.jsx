@@ -1,8 +1,11 @@
 import React from 'react'
+import './styles.css'
 
 const Clock = ({timer}) => {
   return (
-    <div>{`Clock ${timer}`}</div>
+    <div className="clock">
+      <span className="timer">{timer}</span>
+    </div>
   )
 }
 
