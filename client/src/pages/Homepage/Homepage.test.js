@@ -1,4 +1,4 @@
-import { screen, render, queryByAttribute } from '@testing-library/react';
+import { screen, render, queryByAttribute, fireEvent } from '@testing-library/react';
 import Homepage from '.'
 import Popup from '.'
 import {BrowserRouter as Router} from 'react-router-dom';
@@ -24,26 +24,25 @@ describe('Homepage', () =>{
 
     test("Leaderboard buttons sends to leaderboard page", () => {
         const leaderboardButton = screen.getByRole('button', { name: "Leaderboard"}) 
-        const { navigate } = exportedForTesting 
+
         fireEvent.click(leaderboardButton);
-        expect(navigate).toHaveBeenCalledWith("/leaderboard")
+        expect(window.location.pathname).toBe("/leaderboard")
     })
 
     test("Update username state with input", () => {
-        const updateUsername = jest.fn() 
         
         fireEvent.click(screen.getByText("Create Lobby"))
-        fireEvent.change(screen.getByRole("input", {name: "usernameInput"}), {target : {value: "a"}})
-        fireEvent.
-        expect(updateUsername).toHaveBeenCalled()
+        const usernameBox = screen.getByRole("textbox", {name: "usernameInput"})
+        fireEvent.change(usernameBox, {target : {value: "test"}})
+        expect(usernameBox).toHaveValue("test")
     })
 
     test("Update lobbyId state with input", () => {
-        const updateLobbyId = jest.fn() 
 
         fireEvent.click(screen.getByText("Create Lobby"))
-        fireEvent.change(screen.getByRole("input", {name: "lobbyInput"}), {target : {value: "a"}})
+        const lobbyBox = screen.getByRole("textbox", {name: "lobbyInput"})
+        fireEvent.change(lobbyBox, {target : {value: "test"}})
 
-        expect(updateLobbyId).toHaveBeenCalled()
+        expect(lobbyBox).toHaveValue("test")
     })
 })
