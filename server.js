@@ -20,8 +20,10 @@ server.get('/', (req, res) => res.sendFile(path.resolve(__dirname + '/client/dis
 
 const io = require('socket.io')(2333, {
     cors: {
-        origin: ["http://localhost:3000",
-                "http://127.0.0.1:3000"]
+        origin: ["http://localhost:3000", 
+        "http://192.168.56.1:3000",
+        "http://192.168.2.238:3000",
+        "http://172.21.48.1:3000"]
     }
 })
 
@@ -111,22 +113,24 @@ io.on("connection", socket => {
         let lobby = io.sockets.adapter.rooms.get(lobbyId)
         let questionData = lobby.questions
         let options = lobby.options
+        let players = lobby.players
 
         for (const question of questionData) {
     
             lobby = io.sockets.adapter.rooms.get(lobbyId)
             let activePlayer = lobby.activePlayer
 
-            console.log("Current player:", activePlayer)
+            console.log("Current player:", activePlayer, "Players: ",players)
             // send question
             console.log(question.question)
-            io.to(lobbyId).emit("send-question", question.question, activePlayer)          // recieve on client to display and know who to add score to / display as active
+            io.to(lobbyId).emit("send-question", question.question, activePlayer, players)          // recieve on client to display and know who to add score to / display as active
 
             // shuffles and sends answers - untested
             let answers = question.incorrect_answers
-            answers.push(question.correct_answer)
+            let correctAnswer = question.correct_answer
+            if(answers.length <= 3) answers.push(correctAnswer) 
             let shuffledAnswers = answers.sort((a, b) => Math.random() - 0.5)
-            io.to(lobbyId).emit("send-answers", shuffledAnswers)                        // recieve on client to display
+            io.to(lobbyId).emit("send-answers", shuffledAnswers, correctAnswer)                        // recieve on client to display
 
             
             // wait for active player to answer

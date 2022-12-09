@@ -5,7 +5,7 @@ import AppStateContext from '.'
 const initalState = {
     leaderboard: [],
     active_players: 0,
-    current_sessions: 0
+    current_sessions: null
 }
 
 const AppProvider = (props) => {

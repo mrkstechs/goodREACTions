@@ -1,8 +1,12 @@
 import React from 'react'
+import './styles.css'
 
-const LeaderBoard = () => {
+const LeaderBoard = ({users}) => {
   return (
-    <div>LeaderBoard</div>
+    <ol className="leader-board">
+      <h3>Leaderboard</h3>
+      {users.map((user, index) => <li key={index}>{user}</li>)}
+    </ol>
   )
 }
 

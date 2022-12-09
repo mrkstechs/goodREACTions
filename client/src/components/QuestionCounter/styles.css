@@ -1,0 +1,35 @@
+.counter{
+    position: relative;
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    background: #A084CA;
+    color: white;
+    width: 100px;
+    height: 100px;
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 50%;
+}
+
+.counter span {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: block;
+    font-size: 1.75em;
+}
+
+.counter .current-round{
+    top: 30%;
+    left: 30%;
+}
+
+.counter .slash{
+    left: 45%;
+}
+.counter .final-round{
+    top: 65%;
+    left: 65%;
+}

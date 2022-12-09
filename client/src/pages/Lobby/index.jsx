@@ -7,25 +7,25 @@ import { socket } from "../../App";
 import "./style.css"
 
 import { Options, PlayerList } from "./components"
-import { useUpdateAppState } from "../../context";
 
 const Lobby = () => {
 
     const { state } = useLocation()
     const { lobbyId, username, userList, host } = state
-    const [gameState, updateGameState] = useUpdateAppState()
     const [gameSettings, setGameSettings] = useState({
         host: null,
         category: "any",
         difficulty: "any",
         timer: "20",
+        currentPlayers: null,
         maxPlayers: "4",
         numQuestions: "10"
     })
 
     useEffect(() => {
-        console.log(gameSettings)
-    })
+        !gameSettings.host && setGameSettings({ ...gameSettings, host: host })
+        !gameSettings.currentPlayers && setGameSettings({ ...gameSettings, currentPlayers: userList })
+    }, [gameSettings.host, gameSettings.currentPlayers])
     // Navigation
     const navigate = useNavigate()
     
@@ -38,7 +38,7 @@ const Lobby = () => {
         console.log("Starting game...")
         socket.emit("init-game", lobbyId)
 
-        navigate('/question', {state: {questionData}})
+        navigate('/question', {state: {gameSettings}})
     })
 
     function backToHome() {

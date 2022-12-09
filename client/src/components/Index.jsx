@@ -8,4 +8,5 @@ export { default as Logo } from './Logo'
 export { default as Player } from './Player'
 export { default as LeaderBoard } from './LeaderBoard'
 export { default as QuestionCounter } from './QuestionCounter'
+export { default as Answer } from './Answer'
 

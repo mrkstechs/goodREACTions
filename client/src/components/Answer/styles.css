@@ -1,0 +1,34 @@
+.answer-tile{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    padding: .5em;
+    background: #A084CA;
+    color: white;
+    font-size: 1.75em;
+    border-radius: 5em;
+}
+
+.answer-tile p{
+    display: block;
+    width: 100%;
+    text-align: center;
+    margin: 0.5em auto;
+    cursor: pointer;
+}
+
+
+.answer-tile.correct{
+    background: green;
+}
+
+.answer-tile.incorrect{
+    background: red;
+}
+
+.answer-tile.correct p, .answer-tile.incorrect p{
+    visibility: hidden;
+}

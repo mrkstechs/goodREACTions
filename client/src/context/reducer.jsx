@@ -5,7 +5,7 @@ const reducer = (state, action) => {
         case 'UPADTE_ACTIVE_PLAYERS':
             return { ...state, active_players: action.payload }
         case 'UPDATE_CURRENT_SESSIONS':
-            return { ...state, current_sessions: action.payload }
+            return { ...state, current_sessions: [action.payload] }
         default:
             return state
     }

@@ -1,88 +1,91 @@
-import React, { useState, useEffect } from "react";
-import he from "he";
-import Game from "./game";
-import LoadingSpinner from "./utils/loading-spinner";
-import ErrorMessage from "./utils/error-message";
+import React, { useState, useEffect, useRef } from 'react'
 import { useLocation } from 'react-router-dom'
-
 import { socket } from '../../App'
+import { Answer, Clock, LeaderBoard, QuestionCounter } from '../../components'
+import { useUpdateAppState } from '../../context'
 
-function QuestionPage() {
-  const [quizFetch, setQuizFetch] = useState({
-    isLoading: true,
-    errorMessage: "",
-    data: null,
-  });
+import './styles.css'
 
-  // Empty array for dependencies means the effect only runs on mount.
+const Questionspage = () => {
+  const location = useLocation()
+  const [gameState, updateGameState] = useUpdateAppState()
+  const questionRef = useRef()
+  const gameSettings = location.state
+  const [currentGameState, setCurrentGameState] = useState({
+    current_player: null,
+    players: null,
+    question_number: 1,
+    question: '',
+    answers: false,
+    correct_answer: null,
+    max_questions: 10,
+    timer: gameSettings.timer,
+    scores: null
+  })
+  
+
   useEffect(() => {
-    async function getQuiz() {
-      try {
-        console.log("Fetching!");
-        const url = "https://opentdb.com/api.php?amount=10&type=multiple";
-        const response = await fetch(url);
-
-        if (!response.ok) {
-          throw new Error(`Something went wrong, server responded with ${response.status}.`);
-        }
-
-        const json = await response.json();
-        const { response_code, results } = json;
-
-        if (response_code === 1) {
-          throw new Error("Bad API request - no results!");
-        } else if (response_code === 2) {
-          throw new Error("Bad API request - invalid parameter!");
-        }
-
-        // Decode the trivia data HTML entities.
-        const decodedResults = results.map((item) => {
-          return {
-            ...item,
-            question: he.decode(item.question),
-            correct_answer: he.decode(item.correct_answer),
-            incorrect_answers: item.incorrect_answers.map((incorrect) => he.decode(incorrect)),
-          };
-        });
-
-        // Successfully passed all the errors checks
-        setQuizFetch({
-          isLoading: false,
-          errorMessage: "",
-          data: decodedResults,
-        });
-      } catch (err) {
-        // Display a generic error message.
-        setQuizFetch({
-          isLoading: false,
-          errorMessage: "Something went wrong loading the quiz. Please try again later.",
-          data: null,
-        });
-        // Display specific error for debugging in the console.
-        console.error(err);
-      }
+    if(!gameState.current_sessions && !currentGameState.answers){
+      
+      
     }
-    getQuiz();
+    
+    // if(currentGameState.answers){
+      //   const payload = {
+    //     host: gameSettings.host,
+    //     settings: gameSettings,
+    //     current: currentGameState
+    //   }
+    //   updateGameState({type: 'UPDATE_CURRENT_SESSIONS', payload: payload })
+    // }
+    
+    console.log('Game State: ',gameState)
+    console.log('Current Game State: ',currentGameState)
 
-    // TODO: in the future, we should cleanup if the user leaves the page before fetch
-    // finishes running.
-  }, []);
+    if (questionRef.current) questionRef.current.innerHTML = currentGameState.question
 
-  const { isLoading, errorMessage, data } = quizFetch;
+  }, [questionRef, gameState, gameSettings, currentGameState])
 
-  // socket.on("send-question", (question) => {
-  //   setQuizFetch({
-  //     isLoading: false,
-  //     errorMessage: "",
-  //     data: question,
-  //   })
-  // })
-  let contents;
-  if (isLoading) contents = <LoadingSpinner />;
-  else if (errorMessage !== "") contents = <ErrorMessage>{errorMessage}</ErrorMessage>;
-  else contents = <Game triviaData={data} />;
-
-  return <main>{contents}</main>;
+  
+      socket.on('send-question', (question, activeplayer, players) => {
+        socket.on('send-answers', (shuffledAnswers, correctAnswer) => {
+          setCurrentGameState({
+            current_player: activeplayer,
+            players,
+            question_number: currentGameState.question_number,
+            question,
+            answers: shuffledAnswers,
+            correct_answer: correctAnswer,
+            max_questions: currentGameState.max_questions,
+            timer: currentGameState.timer,
+            scores: currentGameState.scores
+          })
+        })
+      })
+  return (
+    <div id="game">
+        {!currentGameState.answers ? <p>Loading....</p> 
+          : (
+              <>
+              <div className="triva-stage">
+                <LeaderBoard users={currentGameState.players}/>
+                <Clock timer={currentGameState.timer}/>
+              </div>
+              <div className="question-section">
+                <div className="current-question">
+                  <span className="round-section"><QuestionCounter current={currentGameState.question_number} final={currentGameState.max_questions}/></span>
+                  <p ref={questionRef}>Question</p>
+                </div>
+                <div className="answer-section">
+                  {
+                    currentGameState.answers.map(answer => <Answer correct={currentGameState.correct_answer} text={answer} />)
+                  }
+                </div>
+              </div>
+              </>
+          )}
+    </div>
+  )
 }
 
-export default QuestionPage;
+export default Questionspage

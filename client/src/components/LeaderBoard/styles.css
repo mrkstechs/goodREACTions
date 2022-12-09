@@ -1,0 +1,13 @@
+.leader-board{
+    width: 20%;
+    background: #D9D9D9;
+    padding: 1em;
+    border: solid 1px red;
+    border-radius: .5em;
+    font-family: 'Raleway', sans-serif;
+}
+
+.leader-board h3{
+    text-decoration: underline;
+}
+
