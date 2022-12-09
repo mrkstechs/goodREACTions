@@ -16,7 +16,7 @@ function App() {
   useEffect(() => {
     const updateInitalState = async () => {
       try {
-        const scores = await fetch('http://localhost:8080/api/highscores').then(res => res.json()).catch(err => console.error(err))
+        const scores = await fetch('/api/highscores').then(res => res.json()).catch(err => console.error(err))
         setState({type: 'UPDATE_LEADERBOARD', payload: scores})
       } catch (error) {
         console.error(error)

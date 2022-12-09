@@ -20,7 +20,8 @@ server.get('/', (req, res) => res.sendFile(path.resolve(__dirname + '/client/dis
 
 const io = require('socket.io')(2333, {
     cors: {
-        origin: ["http://localhost:3000", 
+        origin: ["*","*:3000","*:2333",
+        "http://localhost:3000", 
         "http://192.168.56.1:3000",
         "http://192.168.56.1:2333",
         "http://192.168.2.238:3000",
