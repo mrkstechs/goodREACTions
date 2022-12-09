@@ -182,7 +182,7 @@ io.on("connection", socket => {
     })
 
 })
-    
+
     
 async function fetchQuestions(options, players) {
     let url;
@@ -252,8 +252,9 @@ function calculateScore(timer, maxTime) {
     for (let i = timeTaken; i > 0; i--) {
         score /= 1.05;
     }
-
-    return(Math.floor(score))
+    
+    score = Math.floor(score)
+    return(score)
 }
 
-module.exports = { server, fetchQuestions}
+module.exports = { server, fetchQuestions, calculateScore}
