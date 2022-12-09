@@ -56,18 +56,18 @@ function Options ({ config, update }) {
                         <option value="31">Entertainment: Japanese Anime &amp; Manga</option>
                         <option value="32">Entertainment: Cartoon &amp; Animations</option>
                     </select>  
-                    <select name="difficulty" className="dropdownInput" onChange={handler} value={difficulty}>
+                    <select aria-label="difficulty" name="difficulty" className="dropdownInput" onChange={handler} value={difficulty}>
                         <option value="any">Any Difficulty</option>
                         <option value="easy">Easy</option>
                         <option value="medium">Medium</option>
                         <option value="hard">Hard</option>
                     </select>
                     <label htmlFor="timer">Time Per Question: {timer} seconds</label>
-                    <input type="range" min="5" max="60" name="timer" className="inputSlider" onChange={handler} value={timer} />
+                    <input aria-label="timer" type="range" min="5" max="60" name="timer" className="inputSlider" onChange={handler} value={timer} />
                     <label htmlFor="maxPlayers">Max Players: {maxPlayers} players</label>
-                    <input type="range" min="1" max="8" name="maxPlayers" className="inputSlider" onChange={handler} value={maxPlayers}/>
+                    <input aria-label="maxPlayers" type="range" min="1" max="8" name="maxPlayers" className="inputSlider" onChange={handler} value={maxPlayers}/>
                     <label htmlFor="numQuestions">Number of Questions: {numQuestions} questions</label>
-                    <input type="range" min="1" max="20" name="numQuestions" className="inputSlider" onChange={handler} value={numQuestions}/>
+                    <input aria-label="numQuestions" type="range" min="1" max="20" name="numQuestions" className="inputSlider" onChange={handler} value={numQuestions}/>
                 </form>
             </div>                
 }
