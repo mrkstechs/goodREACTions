@@ -1,5 +1,7 @@
 import { screen, render } from '@testing-library/react';
 import Logo from '.'
+import React from 'react'
+import '@testing-library/jest-dom'
 
 describe('Logo', () =>{
     beforeEach(() =>{
