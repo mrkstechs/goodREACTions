@@ -3,30 +3,6 @@ const { fetchQuestions } = require("./server")
 
 describe("SocketServer", () => {
    
-    test("creates a lobby and checks that the server emits the correct messages", (done) => {
-    
-        const socket = io("http://localhost:2333");
-
-        socket.on("connect", () => {
-          socket.emit("create-lobby", "my-lobby", "my-username");
-        });
-      
-        socket.on("console-message", (message) => {
-      
-          expect(message).toBe(`Created lobby. LobbyId: my-lobby`);
-      
-          socket.on("send-to-lobby", (lobbyId, username, userList, gameHost) => {
-            expect(lobbyId).toBe("my-lobby");
-            expect(username).toBe("my-username");
-            expect(userList).toEqual(["my-username"]);
-            expect(gameHost).toBe(socket.id);
-      
-            socket.close();
-            done();
-          });
-        });
-      });
-
     test("Logs error when joining non-existing lobby", () => {
         const socket = io("http://localhost:2333");
 
@@ -39,26 +15,55 @@ describe("SocketServer", () => {
         })
     })
 
+    test("creates a lobby and checks that the server emits the correct messages", () => {
+    
+        const socket = io("http://localhost:2333");
+
+        socket.on("connect", () => {
+          socket.emit("create-lobby", "testLobby1", "my-username");
+        });
+      
+        socket.on("console-message", (message) => {
+      
+          expect(message).toBe(`Created lobby. LobbyId: testLobby1`);
+      
+          socket.on("send-to-lobby", (lobbyId, username, userList, gameHost) => {
+            expect(lobbyId).toBe("testLobby1");
+            expect(username).toBe("my-username");
+            expect(userList).toEqual(["my-username"]);
+            expect(gameHost).toBe(socket.id);
+      
+            socket.close();
+          });
+        });
+      });
+
     test("joins an existing lobby", () => {
 
         const socket = io("http://localhost:2333");
 
         socket.on("connect", () => {
-            socket.emit("create-lobby", "my-lobby", "my-username");
-            socket.emit("join-lobby", "my-lobby", "my-user2")
+            socket.emit("create-lobby", "testLobby2", "my-username");
+            socket.emit("join-lobby", "testLobby2", "my-user2")
         });
         
-        socket.on("console-message", () => {
-            expect(message).toBe(`Joined lobby. LobbyId: my-lobby`);
+        socket.on("console-message", (message) => {
+            if(message != "Created lobby. LobbyId: testLobby2"){
+                expect(message).toEqual(`Joined lobby. LobbyId: testLobby2`);
+            }
 
-            socket.on("send-to-lobby", () => {
-                expect(lobbyId).toBe("my-lobby");
-                expect(username).toBe("my-username");
+
+            socket.on("send-to-lobby", (lobbyId, username, userList, gameHost) => {
+                expect(lobbyId).toBe("testLobby2");
+                try {
+                    expect(username).toBe("my-username");
+                } catch {
+                    expect(username).toBe("my-user2");
+                }
                 expect(userList).toEqual(["my-username", "my-user2"]);
                 expect(gameHost).toBe(socket.id);
 
                 socket.close();
-                done();
             })
         })
     })
@@ -75,7 +80,6 @@ describe("SocketServer", () => {
             expect(userList).toBe(socket.id)
 
             socket.close();
-            done();
         })
     })
 
@@ -91,14 +95,14 @@ describe("SocketServer", () => {
         }
 
         socket.on("connect", () => {
-            socket.emit("create-lobby", "my-lobby", "my-username");
+            socket.emit("create-lobby", "testLobby2", "my-username");
 
             socket.on("start-game", (lobbyId, recievedOptions) => {
 
-                expect(lobbyId).toEqual("my-lobby");
+                expect(lobbyId).toEqual("testLobby2");
                 expect(recievedOptions).toEqual(options);
 
-                socket.emit("start-game", "my-lobby", options)
+                socket.emit("start-game", "testLobby2", options)
             })
 
         });
@@ -113,7 +117,6 @@ describe("SocketServer", () => {
             expect(questionData).toBeDefined()
 
             socket.close();
-            done();
         })
     })
 
@@ -131,9 +134,9 @@ describe("SocketServer", () => {
         const socket = io("http://localhost:2333");
 
         socket.on("connect", () => {
-            socket.emit("create-lobby", "my-lobby", "my-username");
-            socket.emit("start-game", "my-lobby", options)
-            socket.emit("init-game", "my-lobby");
+            socket.emit("create-lobby", "testLobby3", "my-username");
+            socket.emit("start-game", "testLobby3", options)
+            socket.emit("init-game", "testLobby3");
         });
 
         socket.on("send-question", (question, activePlayer) => {
@@ -141,11 +144,10 @@ describe("SocketServer", () => {
             expect(activePlayer).toBe(socket.id)
 
             socket.close();
-            done();
         })
     })
 
-    test("Generates correct url for API call", async () => {
+    test("Generates correct url for API for any category/difficulty", async () => {
 
         const options = {
             category: "any",
@@ -162,4 +164,72 @@ describe("SocketServer", () => {
         expect(questions.length).toEqual(20);
 
     })
+
+    test("Generates correct url for API for any category but set difficulty", async () => {
+
+        const options = {
+            category: "any",
+            difficulty: "easy",
+            timer: "30",
+            maxPlayers: "4",
+            numQuestions: "10"
+        };
+
+        const players = ['player1', 'player2'];
+        
+        const questions = await fetchQuestions(options, players);
+        expect(questions).toBeDefined();
+        expect(questions.length).toEqual(20);
+        expect(questions[0].difficulty).toBe("easy");
+        expect(questions[3].difficulty).toBe("easy");
+        expect(questions[6].difficulty).toBe("easy");
+
+    })
+
+    
+    test("Generates correct url for API for any difficulty but set category", async () => {
+
+        const options = {
+            category: "9",
+            difficulty: "any",
+            timer: "30",
+            maxPlayers: "4",
+            numQuestions: "10"
+        };
+
+        const players = ['player1', 'player2'];
+        
+        const questions = await fetchQuestions(options, players);
+        expect(questions).toBeDefined();
+        expect(questions.length).toEqual(20);
+        expect(questions[0].category).toBe("General Knowledge");
+        expect(questions[3].category).toBe("General Knowledge");
+        expect(questions[6].category).toBe("General Knowledge");
+
+    })
+
+    test("Generates correct url for API for set difficulty and set category", async () => {
+
+        const options = {
+            category: "9",
+            difficulty: "easy",
+            timer: "30",
+            maxPlayers: "4",
+            numQuestions: "10"
+        };
+
+        const players = ['player1', 'player2'];
+        
+        const questions = await fetchQuestions(options, players);
+        expect(questions).toBeDefined();
+        expect(questions.length).toEqual(20);
+        expect(questions[0].category).toBe("General Knowledge");
+        expect(questions[3].category).toBe("General Knowledge");
+        expect(questions[6].category).toBe("General Knowledge");
+        expect(questions[0].difficulty).toBe("easy");
+        expect(questions[3].difficulty).toBe("easy");
+        expect(questions[6].difficulty).toBe("easy");
+    })
+
+    
 })
