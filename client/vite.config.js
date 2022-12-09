@@ -17,5 +17,5 @@ export default defineConfig({
       origin: '*'
     }
   },
-  plugins: [react({fastRefresh: true}), svgr()],
+  plugins: [react({fastRefresh: true}), svgr({exportAsDefault: false})],
 })

@@ -1,0 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik&display=swap');
+
+
+#losers{
+    background: #FFFFFF;
+    border-radius: 10px;
+    padding-top: 5%;
+    /* border: 1px solid black; */
+    margin: 10px;
+    text-align: center;
+    height: 60px;
+    top: 25px;
+    font-family: "Rubik";
+    
+}
+
