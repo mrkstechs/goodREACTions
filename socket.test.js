@@ -1,5 +1,5 @@
 const io = require("socket.io-client");
-const { fetchQuestions } = require("./index")
+const { fetchQuestions } = require("./server")
 
 describe("SocketServer", () => {
    
@@ -27,6 +27,42 @@ describe("SocketServer", () => {
         });
       });
 
+    test("Logs error when joining non-existing lobby", () => {
+        const socket = io("http://localhost:2333");
+
+        socket.on("connect", () => {
+            socket.emit("join-lobby", "my-lobby", "my-user2")
+        });
+
+        socket.on("console-message", (message) => {
+            expect(message).toBe(`Lobby "my-lobby" does not exist`)
+        })
+    })
+
+    test("joins an existing lobby", () => {
+
+        const socket = io("http://localhost:2333");
+
+        socket.on("connect", () => {
+            socket.emit("create-lobby", "my-lobby", "my-username");
+            socket.emit("join-lobby", "my-lobby", "my-user2")
+        });
+        
+        socket.on("console-message", () => {
+            expect(message).toBe(`Joined lobby. LobbyId: my-lobby`);
+
+            socket.on("send-to-lobby", () => {
+                expect(lobbyId).toBe("my-lobby");
+                expect(username).toBe("my-username");
+                expect(userList).toEqual(["my-username", "my-user2"]);
+                expect(gameHost).toBe(socket.id);
+
+                socket.close();
+                done();
+            })
+        })
+    })
+
     test("Recieves userList on get-user-list emit", () => {
 
         const socket = io("http://localhost:2333");
@@ -35,10 +71,11 @@ describe("SocketServer", () => {
             socket.emit("get-user-list", socket.id)
         });
 
-        socket.emit("get-user-list", socket.id)
-
         socket.on("send-user-list", (userList) => {
             expect(userList).toBe(socket.id)
+
+            socket.close();
+            done();
         })
     })
 
@@ -74,6 +111,9 @@ describe("SocketServer", () => {
             expect(lobby.options).toBeDefined()
             expect(lobby.questions).toBeDefined()
             expect(questionData).toBeDefined()
+
+            socket.close();
+            done();
         })
     })
 
@@ -99,6 +139,9 @@ describe("SocketServer", () => {
         socket.on("send-question", (question, activePlayer) => {
             expect(question).toBeDefined()
             expect(activePlayer).toBe(socket.id)
+
+            socket.close();
+            done();
         })
     })
 
@@ -116,6 +159,7 @@ describe("SocketServer", () => {
         
         const questions = await fetchQuestions(options, players);
         expect(questions).toBeDefined();
-        expect(questions.length).toEqual(5 * players.length);
+        expect(questions.length).toEqual(20);
+
     })
 })
