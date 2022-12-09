@@ -1,16 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { useLocation } from 'react-router-dom'
 import { socket } from '../../App'
-import { Answer, Clock, LeaderBoard, QuestionCounter } from '../../components'
+import { Answer, Clock, LeaderBoard, Player, QuestionCounter } from '../../components'
 import { useUpdateAppState } from '../../context'
 
 import './styles.css'
 
 const Questionspage = () => {
-  const location = useLocation()
   const [gameState, updateGameState] = useUpdateAppState()
   const questionRef = useRef()
-  const gameSettings = location.state
   const [currentGameState, setCurrentGameState] = useState({
     current_player: null,
     players: null,
@@ -18,8 +15,8 @@ const Questionspage = () => {
     question: '',
     answers: false,
     correct_answer: null,
-    max_questions: 10,
-    timer: gameSettings.timer,
+    max_questions: parseInt(gameState.current_sessions[0].settings.numQuestions),
+    timer: parseInt(gameState.current_sessions[0].settings.timer),
     scores: null
   })
   
@@ -31,11 +28,7 @@ const Questionspage = () => {
     }
     
     // if(currentGameState.answers){
-      //   const payload = {
-    //     host: gameSettings.host,
-    //     settings: gameSettings,
-    //     current: currentGameState
-    //   }
+    //   const payload = { ...gameState, current: currentGameState }
     //   updateGameState({type: 'UPDATE_CURRENT_SESSIONS', payload: payload })
     // }
     
@@ -44,7 +37,7 @@ const Questionspage = () => {
 
     if (questionRef.current) questionRef.current.innerHTML = currentGameState.question
 
-  }, [questionRef, gameState, gameSettings, currentGameState])
+  }, [questionRef, gameState, currentGameState])
 
   
       socket.on('send-question', (question, activeplayer, players) => {
@@ -70,6 +63,7 @@ const Questionspage = () => {
               <div className="triva-stage">
                 <LeaderBoard users={currentGameState.players}/>
                 <Clock timer={currentGameState.timer}/>
+                <Player/>
               </div>
               <div className="question-section">
                 <div className="current-question">
@@ -78,7 +72,7 @@ const Questionspage = () => {
                 </div>
                 <div className="answer-section">
                   {
-                    currentGameState.answers.map(answer => <Answer correct={currentGameState.correct_answer} text={answer} />)
+                    currentGameState.answers.map((answer, index) => <Answer key={index} correct={currentGameState.correct_answer} text={answer} />)
                   }
                 </div>
               </div>

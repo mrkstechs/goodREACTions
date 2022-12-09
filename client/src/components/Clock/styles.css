@@ -1,0 +1,22 @@
+.clock{
+    position: absolute;
+    top: 0%;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 250px;
+    height: 250px;
+    max-width: 40%;
+    max-height: 30vw;
+    margin: 0 auto;
+    background: #FA7A89;
+    color: white;
+    border-radius: 50%;
+}
+
+.clock span {
+    font-size: 3em;
+    font-weight: 700;
+}
