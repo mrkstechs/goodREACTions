@@ -2,7 +2,7 @@ import React from 'react'
 
 const Clock = ({timer}) => {
   return (
-    <div>{`Clock ${timer}`}</div>
+    <div className='clock'>{`Clock ${timer}`}</div>
   )
 }
 
