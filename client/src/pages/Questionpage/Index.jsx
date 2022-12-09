@@ -13,48 +13,52 @@ const Questionspage = () => {
     players: null,
     question_number: 1,
     question: '',
-    answers: false,
+    answers: null,
     correct_answer: null,
+    player_answer: null,
     max_questions: parseInt(gameState.current_sessions[0].settings.numQuestions),
     timer: parseInt(gameState.current_sessions[0].settings.timer),
     scores: null
   })
+  const [playerAnswer, setPlayerAnswer] = useState(null)
+  const [answerChecked, setAnswerChecked] = useState(null)
   
 
   useEffect(() => {
-    if(!gameState.current_sessions && !currentGameState.answers){
-      
-      
-    }
-    
-    // if(currentGameState.answers){
-    //   const payload = { ...gameState, current: currentGameState }
-    //   updateGameState({type: 'UPDATE_CURRENT_SESSIONS', payload: payload })
-    // }
-    
     console.log('Game State: ',gameState)
     console.log('Current Game State: ',currentGameState)
-
+    console.log('player answer: ', playerAnswer)
+    if (playerAnswer && currentGameState.answers){
+      setCurrentGameState( { ...currentGameState, player_answer: playerAnswer } )
+      setPlayerAnswer(false)
+    }
     if (questionRef.current) questionRef.current.innerHTML = currentGameState.question
 
-  }, [questionRef, gameState, currentGameState])
+  }, [questionRef, gameState.current_sessions, currentGameState, playerAnswer])
 
   
-      socket.on('send-question', (question, activeplayer, players) => {
-        socket.on('send-answers', (shuffledAnswers, correctAnswer) => {
-          setCurrentGameState({
-            current_player: activeplayer,
-            players,
-            question_number: currentGameState.question_number,
-            question,
-            answers: shuffledAnswers,
-            correct_answer: correctAnswer,
-            max_questions: currentGameState.max_questions,
-            timer: currentGameState.timer,
-            scores: currentGameState.scores
-          })
-        })
+  socket.on('send-question', (question, activeplayer, players) => {
+    socket.on('send-answers', (shuffledAnswers, correctAnswer) => {
+      setCurrentGameState({
+        current_player: activeplayer,
+        players,
+        question_number: currentGameState.question_number,
+        question,
+        answers: shuffledAnswers,
+        correct_answer: correctAnswer,
+        player_answer: currentGameState.player_answer,
+        max_questions: currentGameState.max_questions,
+        timer: currentGameState.timer,
+        scores: currentGameState.scores
       })
+    })
+  })
+
+  if(!answerChecked) {
+    console.log('fired')
+    socket.emit('answer-question', playerAnswer)
+  }
+
   return (
     <div id="game">
         {!currentGameState.answers ? <p>Loading....</p> 
@@ -72,7 +76,7 @@ const Questionspage = () => {
                 </div>
                 <div className="answer-section">
                   {
-                    currentGameState.answers.map((answer, index) => <Answer key={index} correct={currentGameState.correct_answer} text={answer} />)
+                    currentGameState.answers.map((answer, index) => <Answer key={index} correct={currentGameState.correct_answer} text={answer} callback={setPlayerAnswer}/>)
                   }
                 </div>
               </div>

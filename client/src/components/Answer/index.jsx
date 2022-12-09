@@ -1,16 +1,25 @@
 import React, { useRef, useEffect, useState } from 'react'
+import { useUpdateAppState } from '../../context'
 import './styles.css'
 
-const Answer = ({correct, text, disable, trigger=null}) => {
+const Answer = ({correct, text, disable, callback, trigger=null}) => {
     const [isCorrect, setIsCorrect] = useState(trigger)
+    const [answered, setAnswered] = useState(false)
     const answerRef = useRef()
   
     useEffect(() => {
         answerRef.current.innerHTML = text
-    }, [answerRef, correct, disable, text, isCorrect])
+        !answered && setIsCorrect(null)
+    }, [answerRef, correct, disable, text, isCorrect, answered])
   
     const handler = (e) => {
-        e.target.textContent == correct ? setIsCorrect(true) : setIsCorrect(false)
+        callback(e.target.textContent)
+        if(e.target.textContent == correct){
+            setIsCorrect(true)
+        } else {
+            setIsCorrect(false)
+        }
+        setAnswered(!answered)
     }
   
     return (
