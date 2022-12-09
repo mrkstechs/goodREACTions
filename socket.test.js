@@ -1,5 +1,5 @@
 const io = require("socket.io-client");
-const { fetchQuestions, nextQuestion, calculateScore } = require("./server")
+const { fetchQuestions, calculateScore } = require("./server")
 
 describe("SocketServer", () => {
    
@@ -237,7 +237,7 @@ describe("SocketServer", () => {
         const firstTest = calculateScore(10,30)
         expect(firstTest).toBe(37)
 
-        const thirdsecondTest = calculateScore(10,20)
+        const secondTest = calculateScore(10,20)
         expect(secondTest).toBe(61)
 
         const thirdTest = calculateScore(5,10)
