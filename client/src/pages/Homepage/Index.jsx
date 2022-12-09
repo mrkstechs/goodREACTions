@@ -15,10 +15,6 @@ const Homepage = () =>{
         console.log(`Connected to socket server with client id: ${socket.id}`)
     })
 
-    socket.on("console-message", (message) => {
-        console.log(message)
-    })
-
     //Navigation
 
     const navigate = useNavigate()

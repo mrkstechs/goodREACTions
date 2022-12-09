@@ -62,26 +62,23 @@ describe('Homepage', () =>{
   
     test("Leaderboard buttons sends to leaderboard page", () => {
         const leaderboardButton = screen.getByRole('button', { name: "Leaderboard"}) 
-        const { navigate } = exportedForTesting 
+
         fireEvent.click(leaderboardButton);
-        expect(navigate).toHaveBeenCalledWith("/leaderboard")
+        expect(window.location.pathname).toBe("/leaderboard")
     })
 
     test("Update username state with input", () => {
-        const updateUsername = jest.fn() 
-        
         fireEvent.click(screen.getByText("Create Lobby"))
-        fireEvent.change(screen.getByRole("input", {name: "usernameInput"}), {target : {value: "a"}})
-        fireEvent.
-        expect(updateUsername).toHaveBeenCalled()
+        const userInput = screen.getByRole("textbox", {name: "usernameInput"})
+        fireEvent.change(userInput, {target : {value: "test"}})
+        expect(userInput).toHaveValue("test")
     })
 
     test("Update lobbyId state with input", () => {
-        const updateLobbyId = jest.fn() 
-
         fireEvent.click(screen.getByText("Create Lobby"))
-        fireEvent.change(screen.getByRole("input", {name: "lobbyInput"}), {target : {value: "a"}})
+        const lobbyInput = screen.getByRole("textbox", {name: "lobbyInput"})
+        fireEvent.change(lobbyInput, {target : {value: "test"}})
 
-        expect(updateLobbyId).toHaveBeenCalled()
+        expect(lobbyInput).toHaveValue("test")
     })
 })
