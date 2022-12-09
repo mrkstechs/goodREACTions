@@ -1,9 +1,9 @@
 import React from 'react'
+import "./styles.css"
 
 const RunnerUps = ({name}) => {
   return (
-    <div>{`Runner Up: ${name}`}</div>
+    <div id='losers'>{`Runner Up: ${name}`}</div>
   )
 }
-
 export default RunnerUps
