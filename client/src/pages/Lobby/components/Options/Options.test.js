@@ -1,8 +1,6 @@
-import React, {useState} from "react";
+import React from "react";
 import { screen, render, fireEvent } from "@testing-library/react";
-import { useLocation, useNavigate } from 'react-router-dom'
-import userEvent from '@testing-library/user-event'
-import Options from "./index";
+import { useLocation } from 'react-router-dom'
 import Lobby from "../../index"
 
 jest.mock("react-router-dom", () => ({
