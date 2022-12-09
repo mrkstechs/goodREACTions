@@ -1,5 +1,5 @@
 const dotenv = require('dotenv').config()
-const app = require('./server')
+const {server: app} = require('./server')
 const {db, seeds} = require('./db/init')
 const port = process.env.PORT || 8080
 const dev = process.env.NODE_ENV == 'development' ? true : false
